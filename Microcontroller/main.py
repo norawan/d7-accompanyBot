@@ -42,6 +42,7 @@ print(notesToPlay)
 pi = setUpPins()
 
 currentTime = 0
+timeDelay = timeDelay/1000
 
 # Executes the tasks for a time and updates the time. Then waits for the duration of the delay interval
 # Eventually will include receiving from serial input connected to laptop

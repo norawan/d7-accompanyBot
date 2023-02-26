@@ -3,7 +3,7 @@ from gpio import *
 from macros import *
 
 def schedule(smallestNote, notesDict):
-    s = converter.parseFile('~/Documents/Capstone/Cscale.musicxml')
+    s = converter.parseFile('ChromaticCscale.xml')
     s.show('text')
 
     flattened = s.flatten()

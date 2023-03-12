@@ -2,7 +2,7 @@ from music21 import *
 from gpio import *
 from macros import *
 
-def schedule(smallestNote, notesDict):
+def schedule(smallestNote, notesDict, liftsDict):
     s = converter.parseFile('RestTest.xml')
     s.show('text')
 
@@ -40,8 +40,11 @@ def schedule(smallestNote, notesDict):
     for thisNote in flattened.getElementsByClass(note.Note):
         print(thisNote.offset)
         print(thisNote.name)
+        print(thisNote.duration.quarterLength)
 
         noteValue = thisNote.name
+        noteDuration = thisNote.duration.quarterLength
+
         pin = noteToPinDict.get(noteValue, "NO PIN")
         if (pin == "NO PIN"):
             print("Error: Bad note parsed\n")
@@ -55,6 +58,14 @@ def schedule(smallestNote, notesDict):
             notesDict[timestamp] = pinMask
         else:
             notesDict[timestamp] |= pinMask
+
+        # Schedule when to lift up the note
+        laterTimestamp = timestamp + noteDuration * (smallestNote / 4)
+        liftList = liftsDict.get(laterTimestamp, "none")
+        if (liftList == "none"):
+            liftsDict[laterTimestamp] = list([pin])
+        else:
+            liftsDict[laterTimestamp].append(pin)
     
     for thisRest in flattened.getElementsByClass(note.Rest):
         timestamp = thisRest.offset * (smallestNote / 4)

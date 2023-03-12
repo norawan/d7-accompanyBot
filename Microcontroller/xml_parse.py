@@ -3,7 +3,7 @@ from gpio import *
 from macros import *
 
 def schedule(smallestNote, notesDict):
-    s = converter.parseFile('ChromaticCscale.xml')
+    s = converter.parseFile('RestTest.xml')
     s.show('text')
 
     flattened = s.flatten()
@@ -55,5 +55,9 @@ def schedule(smallestNote, notesDict):
             notesDict[timestamp] = pinMask
         else:
             notesDict[timestamp] |= pinMask
+    
+    for thisRest in flattened.getElementsByClass(note.Rest):
+        timestamp = thisRest.offset * (smallestNote / 4)
+        notesDict[timestamp] = 0 # For rests, no notes should be played
 
     return (durationOfSmallestNote, notesDict)

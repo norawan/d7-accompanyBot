@@ -23,7 +23,7 @@ def loadMusic():
     readProc.wait()
 
     print("Unzipping binaries...")
-    abstractFile = clearpath(argString).replace(".pdf", "").replace(".png", "") # better ways to do this
+    abstractFile = clearpath(argString).replace(".pdf", "").replace(".png", "").replace(".jpg", "") # better ways to do this
     newPath = outputString + f"/{abstractFile}/{abstractFile}.mxl"
     unzip(newPath, outputString)
     return f'{outputString}/{abstractFile}.xml'
@@ -38,3 +38,7 @@ def readAndPlay():
 
 
 readAndPlay()
+
+'''mS = music21.converter.parse("C:/Users/khand/OneDrive/Documents/GitHub/d7-accompanyBot/Outputs/09540.xml")
+mP = music21.midi.realtime.StreamPlayer(mS)
+mP.play()'''

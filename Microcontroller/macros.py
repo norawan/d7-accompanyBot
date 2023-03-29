@@ -1,6 +1,6 @@
 # Useful Macros
 
-# Pin Macros
+# Pin Numbers --> Static
 PIN0 = 17
 PIN1 = 27
 PIN2 = 22
@@ -14,8 +14,11 @@ PIN9 = 6
 PIN10 = 13
 PIN11 = 16
 PIN12 = 26
+PIN13 = 21
 
-# Corresponding bit masks
+NUM_PINS = 14
+
+# Corresponding bit masks --> Static
 PIN0_MASK = 1 << PIN0
 PIN1_MASK = 1 << PIN1
 PIN2_MASK = 1 << PIN2
@@ -32,7 +35,7 @@ PIN12_MASK = 1 << PIN12
 
 POSSIBLE_PINS = PIN0_MASK | PIN1_MASK | PIN2_MASK | PIN3_MASK | PIN4_MASK | PIN5_MASK | PIN6_MASK | PIN7_MASK | PIN8_MASK | PIN9_MASK | PIN10_MASK | PIN11_MASK | PIN12_MASK
 
-# Assign Pin Masks to Pins
+# Assign Pin Masks to Pins --> Static
 pinToPinMaskDict = {
     PIN0 : PIN0_MASK,
     PIN1 : PIN1_MASK,
@@ -49,7 +52,7 @@ pinToPinMaskDict = {
     PIN12 : PIN12_MASK
 }
 
-# Assign Notes to Pins
+# Notes to Pin mapping --> Dynamic
 # Defaults to start on C scale
 noteToPinDict = {
     "C" : PIN0,
@@ -73,7 +76,7 @@ noteToPinDict = {
     # space between B/C is not mapped
 }
 
-# Set of possible starting notes
+# Possible starting notes and their associated offset
 startingNoteToOffset = {
     "C" : 0,
     "D" : 1,
@@ -84,9 +87,8 @@ startingNoteToOffset = {
     "B" : 6
 }
 
-NUM_PINS = 13
-
-noteToIndex = {
+# Note to pin index
+noteToPinIndex = {
     "C" : 0,
     "C#" : 1,
     "D-" : 1,
@@ -107,3 +109,6 @@ noteToIndex = {
     "B" : 12
     # space between B/C is not mapped
 }
+
+setOfPitchNames = { "C", "C#", "D-", "D", "D#", "E-", "E", "F", "F#",  "G-",
+                    "G", "G#", "A-", "A", "A#", "B-", "B" }

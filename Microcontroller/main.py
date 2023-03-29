@@ -16,61 +16,94 @@ def mapNotes(startingNote):
         print("Does not start on a white key")
         return
     
-    for element in noteToIndex:
+    for element in noteToPinIndex:
         print(element)
-        elementIndex = noteToIndex[element]
+        elementIndex = noteToPinIndex[element]
         print(elementIndex)
 
-def playCurrentTimeNotes(curentTime):
-    """Gets the bit mask for the input time from the notesToPlay dict and sends it to the GPIO pins
+def playNotes(setOfNotes, currentOctave):
+    """Plays the notes in a list of notes
     
-    Args: currentTime (int): The time step to retreive notes for
+    Args: currentMeasure (int): The time step to retreive notes for
     """
-    bitBank = notesToPlay.get(currentTime, "ERROR")
-    if (bitBank != "ERROR"):
-        #print(bin(bitBank))
-        pi.set_bank_1(bitBank)
-        clearBank = (~bitBank & POSSIBLE_PINS)
-        #print(bin(clearBank))
-        pi.clear_bank_1(clearBank)
+    # print(bin(pi.read_bank_1())) # For debugging
+    
+    bitmask = 0
 
-def liftCurrentTimeNotes(currentTime):
-    """Gets the pins of the notes that need to be lifted
+    for note in setOfNotes:
+        pitch = note.pitch
+        octave = note.octave
+        
+        pin = noteToPinDict.get(pitch, "NO PIN")
+        if (pin == "NO PIN"):
+            print("Error: Not a valid pitch\n")
+        elif octave != currentOctave:
+            print("Note outside of current octave\n")
+        else:
+            bitMask |= pinToPinMaskDict.get(pin)
+    
+    pi.set_bank_1(bitmask)
+    clearMask = (~bitmask & POSSIBLE_PINS)
+    pi.clear_bank_1(clearMask)
 
-    Args: currentTime (int): The time step to retreive lifted notes for
-    """
-    liftList = notesToLift.get(currentTime, "ERROR")
-    if (liftList != "ERROR"):
-        for liftedNote in liftList:
-            pi.write(liftedNote, 0)
-            
+def getMeasureFromTime():
+    currentTime = time.time_ns()
+    elapsedTime = currentTime - startTime
+    measureNumber = elapsedTime // measureDuration + startMeasure
+    return measureNumber
+
+def getCurrentOffset():
+    currentTime = time.time_ns()
+    elapsedTime = currentTime - startTime
+    offset = (elapsedTime / measureDuration) - currentMeasure + startMeasure
+    return offset
+
+def checkSerialInput():
+    return 0
+
+# Initializing a piece
 mapNotes("C")
 
-smallestNote = 16 # i.e. 16th note
+scheduledPiece = dict()
+(measureDuration, totalMeasures, scheduledPiece) = schedule("Microcontroller/MetronomeTest120bpm.xml", scheduledPiece)
+print(scheduledPiece)
+# pi = setUpPins()
 
-notesToPlay = dict()
-notesToLift = dict()
-(timeDelay, notesToPlay) = schedule('fiveNoteTest.xml', smallestNote, notesToPlay, notesToLift)
-print(notesToPlay)
-print(notesToLift)
-
-pi = setUpPins()
-
-currentTime = 0
-timeDelay = timeDelay/1000
-slack = timeDelay/2
-
+startTime = time.time_ns()
+startMeasure = 1
+currentMeasure = 1
+justStarted = 1
+currentOffset = 0
+notesToPlay = {}
+offsetList = []
 paused = 0
 
 # Executes the tasks for a time and updates the time. Then waits for the duration of the delay interval
 # Eventually will include receiving from serial input connected to laptop
 while(True):
-    if(paused):
-        time.sleep(timeDelay-slack)
+    command = checkSerialInput()
+    if (command):
+        startMeasure = 0 # parse from command?
+        startTime = time.time()
+        justStarted = 1
+        currentMeasure = startMeasure - 1
+        currentOffset = 0
+        notesToPlay = {}
+        offsetList = []
+        paused = 0
+
     else:
-        liftCurrentTimeNotes(currentTime)
-        time.sleep(slack)
-        playCurrentTimeNotes(currentTime)
-        currentTime += 1
-        # print(bin(pi.read_bank_1())) # For debugging
-        time.sleep(timeDelay-slack)
+        newMeasure = getMeasureFromTime()
+        if (justStarted or newMeasure > currentMeasure):
+            print(newMeasure)
+            justStarted = 0
+            currentMeasure = newMeasure
+            notesToPlay = scheduledPiece.get(currentMeasure, "none")
+            if (notesToPlay != "none"):
+                offsetList = list(notesToPlay.keys())
+                offsetList.sort()
+        
+        newOffset = getCurrentOffset()
+        if (len(offsetList) > 0 and newOffset > offsetList[0]):
+            print(".")
+            offsetList = offsetList[1:]

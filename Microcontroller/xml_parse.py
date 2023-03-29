@@ -2,19 +2,56 @@ from music21 import *
 from gpio import *
 from macros import *
 
-def schedule(xmlFile, smallestNote, notesDict, liftsDict):
+class Note:
+    def __init__(self, pitch, octave, isTie):
+        self.pitch = pitch
+        self.octave = octave
+        self.isTie = isTie
+
+def createNoteObject(music21Note):
+    pitch = music21Note.name
+    octave = music21Note.octave
+    isTie = (music21Note.tie == "start") or (music21Note.tie == "continue")
+
+    return Note(pitch, octave, isTie)
+
+def addNoteToValue(thisNote, offset, value):
+    noteObject = createNoteObject(thisNote)
+        
+    if noteObject.pitch not in setOfPitchNames:
+        print("ERROR: Bad note parsed. Invalid pitch name")
+    
+    notesScheduled = value.get(offset, "none")
+    if (notesScheduled == "none"):
+        notesScheduled = set()
+
+    notesScheduled.add(noteObject) # Use noteObject.pitch for readability when debugging
+
+    value[offset] = notesScheduled
+
+def schedule(xmlFile, scheduledPiece):
     s = converter.parseFile(xmlFile)
     s.show('text')
 
     flattened = s.flatten()
     flattened.show('text')
+
+    totalMeasures = flattened.notes[-1].measureNumber
     
+    # Durations are in terms of quarterLength (A quarter note is worth 1.0 unit)
+
     # Get Time Signature Info
     beatDuration = -1
+    beatCount = -1
     for ts in flattened.getElementsByClass(meter.TimeSignature):
         beatDuration = ts.beatLengthToQuarterLengthRatio
+        beatCount = ts.beatCount
     if (beatDuration == -1):
-        print("Error: No Time Signature detected\n")
+        print("ERROR: No Time Signature detected\n")
+        beatDuration = 1
+    if (beatCount == -1):
+        print("ERROR: No beat count found. Using 4 beats per measure as default\n")
+        beatCount = 4
 
     # Get Tempo Info
     beatType = -1
@@ -23,93 +60,75 @@ def schedule(xmlFile, smallestNote, notesDict, liftsDict):
         beatType = tempoMark.referent.quarterLength
         tempoValue = tempoMark.number
     if (tempoValue == -1):
-        print("Error: No Tempo detected. Using 60BPM as default\n")
+        print("ERROR: No Tempo detected. Using 60BPM as default\n")
         tempoValue = 60
     if (beatType == -1):
-        print("Error: No beatType detected. Using 1 as default\n")
+        print("ERROR: No beatType detected. Using quarter note as default\n")
         beatType = 1
 
-    # (60,000 / tempo * beatType) = duration of a quarter note in ms
+    # (60,000,000,000 / tempo * beatType) = duration of a quarter note in ns
     # i.e. In a song with 120 bpm and 1 beat is 1 quarter note, a quarter note 
-    #      will be (60,000 / 120 * 1) = 500 ms long
-    quarterLengthInMiliseconds = 60000 / (tempoValue * beatType)
-    durationOfSmallestNote = quarterLengthInMiliseconds * 4 / smallestNote
+    #      will be (60,000 / (120 * 1)) = 500 ms long
+    quarterLength_ns = 60000000000 / (tempoValue * beatType)
+    measureDuration_ns = int(quarterLength_ns * beatType * beatCount)
 
-    print(beatDuration)
-    print(beatType)
-    print(tempoValue)
-    print(durationOfSmallestNote)
+    print("Beat Duration: " + str(beatDuration) + "\n")
+    print("Beat Count: " + str(beatCount) + "\n")
+    print("Beat Type: " + str(beatType) + "\n")
+    print("Tempo Value: " + str(tempoValue) + "\n")
+    print("Duration of a measure in nanoseconds: " + str(measureDuration_ns))
 
-    # Mapping for notes to timestamps
-    previousOffset = -1
-    noteCounter = 0 # keeps track of whether there are more than five notes in a chord
+    # Mapping for notes to scheduledNotes dictionary
+    # Key is measure number, value is a 
+
     for thisChord in flattened.getElementsByClass(chord.Chord):
-        print(thisChord.offset)
+        print("Measure number " + str(thisChord.offset))
         print(thisChord.pitchNames)
         print(thisChord.duration.quarterLength)
         
-        offset = thisChord.offset
+        measureNumber = int(thisChord.measureNumber)
+        value = scheduledPiece.get(measureNumber, "none")
+        if (value == "none"):
+            value = dict()
         
         for thisNote in thisChord.notes:
-            noteValue = thisNote.name
-            noteDuration = thisNote.duration.quarterLength
+            offset = (thisChord.offset % (beatCount * beatDuration)) / (beatCount * beatDuration)
+            print("offset: " + str(offset))
 
-            pin = noteToPinDict.get(noteValue, "NO PIN")
-            if (pin == "NO PIN"):
-                print("Error: Bad note parsed\n")
-                return
-            pinMask = pinToPinMaskDict.get(pin)
-            
-            timestamp = offset * (smallestNote / 4)
-            
-            value = notesDict.get(timestamp, "none")
-            if (value == "none"):
-                notesDict[timestamp] = pinMask
-            else:
-                notesDict[timestamp] |= pinMask
-
-            # Schedule when to lift up the note
-            laterTimestamp = timestamp + noteDuration * (smallestNote / 4)
-            liftList = liftsDict.get(laterTimestamp, "none")
-            if (liftList == "none"):
-                liftsDict[laterTimestamp] = list([pin])
-            else:
-                liftsDict[laterTimestamp].append(pin)
+            addNoteToValue(thisNote, offset, value)
+        
+        scheduledPiece[measureNumber] = value
         
     for thisNote in flattened.getElementsByClass(note.Note):
         print(thisNote.offset)
         print(thisNote.name)
         print(thisNote.duration.quarterLength)
         
-        offset = thisNote.offset
-        
-        noteValue = thisNote.name
-        noteDuration = thisNote.duration.quarterLength
-
-        pin = noteToPinDict.get(noteValue, "NO PIN")
-        if (pin == "NO PIN"):
-            print("Error: Bad note parsed\n")
-            return
-        pinMask = pinToPinMaskDict.get(pin)
-        
-        timestamp =  thisNote.offset * (smallestNote / 4)
-        
-        value = notesDict.get(timestamp, "none")
+        measureNumber = int(thisNote.measureNumber)
+        value = scheduledPiece.get(measureNumber, "none")
         if (value == "none"):
-            notesDict[timestamp] = pinMask
-        else:
-            notesDict[timestamp] |= pinMask
+            value = dict()
+        
+        offset = (thisNote.offset % (beatCount * beatDuration)) / (beatCount * beatDuration)
+        print("offset: " + str(offset))
 
-        # Schedule when to lift up the note
-        laterTimestamp = timestamp + noteDuration * (smallestNote / 4)
-        liftList = liftsDict.get(laterTimestamp, "none")
-        if (liftList == "none"):
-            liftsDict[laterTimestamp] = list([pin])
-        else:
-            liftsDict[laterTimestamp].append(pin)
+        addNoteToValue(thisNote, offset, value)
+        
+        scheduledPiece[measureNumber] = value
     
     for thisRest in flattened.getElementsByClass(note.Rest):
-        timestamp = thisRest.offset * (smallestNote / 4)
-        notesDict[timestamp] = 0 # For rests, no notes should be played
+        measureNumber = int(thisRest.measureNumber)
+        value = scheduledPiece.get(measureNumber, "none")
+        if (value == "none"):
+            value = dict()
 
-    return (durationOfSmallestNote, notesDict)
+        offset = (thisRest.offset % (beatCount * beatDuration)) / (beatCount * beatDuration)
+        value[offset] = {}
+
+        scheduledPiece[measureNumber] = value
+
+    return (measureDuration_ns, totalMeasures, scheduledPiece)
+
+scheduledPiece = dict()
+schedule("Microcontroller/fiveNoteTest.xml", scheduledPiece)
+print(scheduledPiece)

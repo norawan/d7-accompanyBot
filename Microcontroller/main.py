@@ -4,6 +4,7 @@ from xml_parse import *
 from macros import *
 
 import time
+import serial
 
 def mapNotes(startingNote):
     """Maps the note:pin noteToPinDict dictionary based on the starting note.
@@ -68,14 +69,12 @@ def getCurrentOffset():
 def checkSerialInput():
     return 0
 
-# Initializing a piece
-mapNotes("C")
-
-scheduledPiece = dict()
-(measureDuration, totalMeasures, scheduledPiece) = schedule("MetronomeTest120bpm.xml", scheduledPiece)
-print(scheduledPiece)
+# Set up hardware
+ser = serial.Serial('/dev/ttyS0')
 
 pi = setUpPins()
+
+# Initializing variables
 
 startTime = time.time_ns()
 startMeasure = 1
@@ -88,8 +87,15 @@ currentlyPlaying = set()
 offsetList = []
 paused = 0
 
-# Executes the tasks for a time and updates the time.
-# Eventually will include receiving from serial input connected to laptop
+# Run scheduling
+
+scheduledPiece = dict()
+(measureDuration, totalMeasures, scheduledPiece) = schedule("MetronomeTest120bpm.xml", scheduledPiece)
+print(scheduledPiece)
+
+mapNotes("C")
+
+# Golden Loop
 while(True):
     command = checkSerialInput()
     if (command):

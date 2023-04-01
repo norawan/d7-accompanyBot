@@ -52,7 +52,7 @@ def playNotes(setOfNotes, currentOctave):
                     currentlyPlaying.remove(pitch)
             pi.write(pin, state)
     
-    print(currentlyPlaying)
+    # print(currentlyPlaying)
 
 def getMeasureFromTime():
     currentTime = time.time_ns()
@@ -67,10 +67,15 @@ def getCurrentOffset():
     return offset
 
 def checkSerialInput():
-    return 0
-
+    if (ser.inWaiting() == 0):
+        
+        return 0
+    else:
+        buf = ser.readline()
+        print(buf)
+        return 1
 # Set up hardware
-ser = serial.Serial('/dev/ttyS0')
+ser = serial.Serial('/dev/serial0', 115200, timeout=1)
 
 pi = setUpPins()
 
@@ -98,21 +103,23 @@ mapNotes("C")
 # Golden Loop
 while(True):
     command = checkSerialInput()
-    if (command):
-        startMeasure = 0 # parse from command?
-        startTime = time.time()
-        justStarted = 1
-        currentMeasure = startMeasure - 1
-        currentOffset = 0
-        notesToPlay = {}
-        currentlyPlaying = {}
-        offsetList = []
-        paused = 0
+    if (command != 0):
+        print("here!\n")
+        ser.write(b"received\n")
+        #startMeasure = 0 # parse from command?
+        #startTime = time.time()
+        #justStarted = 1
+        #currentMeasure = startMeasure - 1
+        #currentOffset = 0
+        #notesToPlay = {}
+        #currentlyPlaying = {}
+        #offsetList = []
+        #paused = 0
 
-    else:
+    elif (command == 0):
         newMeasure = getMeasureFromTime()
         if (justStarted or newMeasure > currentMeasure):
-            print(newMeasure)
+            # print(newMeasure)
             justStarted = 0
             currentMeasure = newMeasure
             notesToPlay = scheduledPiece.get(currentMeasure, "none")
@@ -122,9 +129,12 @@ while(True):
         
         newOffset = getCurrentOffset()
         if (len(offsetList) > 0 and newOffset > offsetList[0]):
-            print(".")
-            print(offsetList[0])
-            notesAtOffset = notesToPlay.get(offsetList[0], "none")
+            # print(".")
+            # print(offsetList[0])
+            if (notesToPlay != "none"):
+                notesAtOffset = notesToPlay.get(offsetList[0], "none")
             if (notesAtOffset != "none"):
                 playNotes(notesAtOffset, currentOctave)
             offsetList = offsetList[1:]
+    else:
+        pass

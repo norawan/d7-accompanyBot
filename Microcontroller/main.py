@@ -21,30 +21,39 @@ def mapNotes(startingNote):
         elementIndex = noteToPinIndex[element]
         print(elementIndex)
 
+def isNoteInRange(note, octave):
+    return True
+
 def playNotes(setOfNotes, currentOctave):
     """Plays the notes in a list of notes
     
     Args: currentMeasure (int): The time step to retreive notes for
     """
     # print(bin(pi.read_bank_1())) # For debugging
-    
-    bitmask = 0
-
     for note in setOfNotes:
         pitch = note.pitch
         octave = note.octave
+        state = note.state
         
         pin = noteToPinDict.get(pitch, "NO PIN")
         if (pin == "NO PIN"):
             print("Error: Not a valid pitch\n")
-        elif octave != currentOctave:
+        elif (isNoteInRange(note, octave)):
             print("Note outside of current octave\n")
         else:
-            bitMask |= pinToPinMaskDict.get(pin)
+            # Note is playable
+            if (state):
+                if (len(currentlyPlaying) == 5):
+                    break
+                currentlyPlaying.add(pitch)
+            else:
+                currentlyPlaying.remove(pitch)
+            # pi.write(pin, state)
     
-    pi.set_bank_1(bitmask)
-    clearMask = (~bitmask & POSSIBLE_PINS)
-    pi.clear_bank_1(clearMask)
+    print(currentlyPlaying)
+    
+    # pi.set_bank_1(bitmask)
+    # pi.clear_bank_1(clearMask)
 
 def getMeasureFromTime():
     currentTime = time.time_ns()
@@ -65,8 +74,9 @@ def checkSerialInput():
 mapNotes("C")
 
 scheduledPiece = dict()
-(measureDuration, totalMeasures, scheduledPiece) = schedule("Microcontroller/MetronomeTest120bpm.xml", scheduledPiece)
+(measureDuration, totalMeasures, scheduledPiece) = schedule("fiveNoteTest.xml", scheduledPiece)
 print(scheduledPiece)
+
 # pi = setUpPins()
 
 startTime = time.time_ns()
@@ -74,7 +84,9 @@ startMeasure = 1
 currentMeasure = 1
 justStarted = 1
 currentOffset = 0
+currentOctave = 3
 notesToPlay = {}
+currentlyPlaying = set()
 offsetList = []
 paused = 0
 
@@ -89,6 +101,7 @@ while(True):
         currentMeasure = startMeasure - 1
         currentOffset = 0
         notesToPlay = {}
+        currentlyPlaying = {}
         offsetList = []
         paused = 0
 
@@ -106,4 +119,8 @@ while(True):
         newOffset = getCurrentOffset()
         if (len(offsetList) > 0 and newOffset > offsetList[0]):
             print(".")
+            print(offsetList[0])
+            notesAtOffset = notesToPlay.get(offsetList[0], "none")
+            if (notesAtOffset != "none"):
+                playNotes(notesAtOffset, currentOctave)
             offsetList = offsetList[1:]

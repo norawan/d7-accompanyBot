@@ -3,31 +3,43 @@ from gpio import *
 from macros import *
 
 class Note:
-    def __init__(self, pitch, octave, isTie):
+    def __init__(self, pitch, octave, state):
         self.pitch = pitch
         self.octave = octave
-        self.isTie = isTie
+        self.state = state # 1 for pressing down, 0 for lifting up
 
-def createNoteObject(music21Note):
-    pitch = music21Note.name
-    octave = music21Note.octave
-    isTie = (music21Note.tie == "start") or (music21Note.tie == "continue")
+def addNoteToValue(thisNote, offset, value, measureDuration):
+    pitch = thisNote.name
+    octave = thisNote.octave
+    duration = thisNote.duration.quarterLength
+    if (thisNote.tie != None):
+        tieType = (thisNote.tie.type)
+        isTie = ((tieType == "start") or (tieType == "continue"))
+    else: isTie = False
 
-    return Note(pitch, octave, isTie)
-
-def addNoteToValue(thisNote, offset, value):
-    noteObject = createNoteObject(thisNote)
-        
-    if noteObject.pitch not in setOfPitchNames:
+    if pitch not in setOfPitchNames:
         print("ERROR: Bad note parsed. Invalid pitch name")
-    
-    notesScheduled = value.get(offset, "none")
-    if (notesScheduled == "none"):
-        notesScheduled = set()
 
-    notesScheduled.add(noteObject) # Use noteObject.pitch for readability when debugging
+    downNotesScheduled = value.get(offset, "none")
+    if (downNotesScheduled == "none"):
+        downNotesScheduled = set()
 
-    value[offset] = notesScheduled
+    # Press note down at offset
+    downNote = Note(pitch, octave, 1)
+    downNotesScheduled.add(downNote) # Use note.pitch for readability when debugging
+    value[offset] = downNotesScheduled
+
+    # Lift note up at offset + duration
+    if (not isTie):
+        liftTime = offset + (0.75) * duration / measureDuration
+
+        upNotesScheduled = value.get(liftTime, "none")
+        if (upNotesScheduled == "none"):
+            upNotesScheduled = set()
+
+        upNote = Note(pitch, octave, 0)
+        upNotesScheduled.add(upNote)
+        value[liftTime] = upNotesScheduled
 
 def schedule(xmlFile, scheduledPiece):
     s = converter.parseFile(xmlFile)
@@ -70,6 +82,7 @@ def schedule(xmlFile, scheduledPiece):
     # i.e. In a song with 120 bpm and 1 beat is 1 quarter note, a quarter note 
     #      will be (60,000 / (120 * 1)) = 500 ms long
     quarterLength_ns = 60000000000 / (tempoValue * beatType)
+    measureDuration = beatCount * beatDuration
     measureDuration_ns = int(quarterLength_ns * beatType * beatCount)
 
     print("Beat Duration: " + str(beatDuration) + "\n")
@@ -85,6 +98,7 @@ def schedule(xmlFile, scheduledPiece):
         print("Measure number " + str(thisChord.offset))
         print(thisChord.pitchNames)
         print(thisChord.duration.quarterLength)
+        print(thisChord.tie)
         
         measureNumber = int(thisChord.measureNumber)
         value = scheduledPiece.get(measureNumber, "none")
@@ -92,10 +106,10 @@ def schedule(xmlFile, scheduledPiece):
             value = dict()
         
         for thisNote in thisChord.notes:
-            offset = (thisChord.offset % (beatCount * beatDuration)) / (beatCount * beatDuration)
+            offset = (thisChord.offset % (measureDuration)) / (measureDuration)
             print("offset: " + str(offset))
 
-            addNoteToValue(thisNote, offset, value)
+            addNoteToValue(thisNote, offset, value, measureDuration)
         
         scheduledPiece[measureNumber] = value
         
@@ -109,10 +123,10 @@ def schedule(xmlFile, scheduledPiece):
         if (value == "none"):
             value = dict()
         
-        offset = (thisNote.offset % (beatCount * beatDuration)) / (beatCount * beatDuration)
+        offset = (thisNote.offset % (measureDuration)) / (measureDuration)
         print("offset: " + str(offset))
 
-        addNoteToValue(thisNote, offset, value)
+        addNoteToValue(thisNote, offset, value, measureDuration)
         
         scheduledPiece[measureNumber] = value
     
@@ -122,7 +136,7 @@ def schedule(xmlFile, scheduledPiece):
         if (value == "none"):
             value = dict()
 
-        offset = (thisRest.offset % (beatCount * beatDuration)) / (beatCount * beatDuration)
+        offset = (thisRest.offset % (measureDuration)) / (measureDuration)
         value[offset] = {}
 
         scheduledPiece[measureNumber] = value
@@ -130,5 +144,5 @@ def schedule(xmlFile, scheduledPiece):
     return (measureDuration_ns, totalMeasures, scheduledPiece)
 
 scheduledPiece = dict()
-schedule("Microcontroller/fiveNoteTest.xml", scheduledPiece)
+schedule("fiveNoteTest.xml", scheduledPiece)
 print(scheduledPiece)

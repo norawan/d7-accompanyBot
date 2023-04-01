@@ -38,7 +38,7 @@ def playNotes(setOfNotes, currentOctave):
         pin = noteToPinDict.get(pitch, "NO PIN")
         if (pin == "NO PIN"):
             print("Error: Not a valid pitch\n")
-        elif (isNoteInRange(note, octave)):
+        elif (not isNoteInRange(note, octave)):
             print("Note outside of current octave\n")
         else:
             # Note is playable
@@ -47,13 +47,11 @@ def playNotes(setOfNotes, currentOctave):
                     break
                 currentlyPlaying.add(pitch)
             else:
-                currentlyPlaying.remove(pitch)
-            # pi.write(pin, state)
+                if (pitch in currentlyPlaying):
+                    currentlyPlaying.remove(pitch)
+            pi.write(pin, state)
     
     print(currentlyPlaying)
-    
-    # pi.set_bank_1(bitmask)
-    # pi.clear_bank_1(clearMask)
 
 def getMeasureFromTime():
     currentTime = time.time_ns()
@@ -74,10 +72,10 @@ def checkSerialInput():
 mapNotes("C")
 
 scheduledPiece = dict()
-(measureDuration, totalMeasures, scheduledPiece) = schedule("fiveNoteTest.xml", scheduledPiece)
+(measureDuration, totalMeasures, scheduledPiece) = schedule("MetronomeTest120bpm.xml", scheduledPiece)
 print(scheduledPiece)
 
-# pi = setUpPins()
+pi = setUpPins()
 
 startTime = time.time_ns()
 startMeasure = 1
@@ -90,7 +88,7 @@ currentlyPlaying = set()
 offsetList = []
 paused = 0
 
-# Executes the tasks for a time and updates the time. Then waits for the duration of the delay interval
+# Executes the tasks for a time and updates the time.
 # Eventually will include receiving from serial input connected to laptop
 while(True):
     command = checkSerialInput()

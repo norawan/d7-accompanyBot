@@ -142,7 +142,3 @@ def schedule(xmlFile, scheduledPiece):
         scheduledPiece[measureNumber] = value
 
     return (measureDuration_ns, totalMeasures, scheduledPiece)
-
-scheduledPiece = dict()
-schedule("fiveNoteTest.xml", scheduledPiece)
-print(scheduledPiece)

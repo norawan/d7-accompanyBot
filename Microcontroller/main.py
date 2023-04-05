@@ -71,7 +71,7 @@ def checkSerialInput():
         return 0
     else:
         buf = ser.readline()
-        print(buf.decode())
+        print(buf)
         ser.write(b"received\n")
         return buf.decode()
     
@@ -85,7 +85,8 @@ pi = setUpPins()
 startTime = time.time_ns()
 startMeasure = 1
 currentMeasure = 1
-justStarted = 1
+totalMeasures = 10
+justStarted = True
 currentOffset = 0
 currentOctave = 3
 notesToPlay = {}
@@ -96,7 +97,7 @@ paused = True
 # Run scheduling
 
 scheduledPiece = dict()
-(measureDuration, totalMeasures, scheduledPiece) = schedule("MetronomeTest120bpm.xml", scheduledPiece)
+(measureDuration, totalMeasures, scheduledPiece) = schedule("Charlie_Brown_Theme.xml", scheduledPiece)
 # print(scheduledPiece)
 
 # mapNotes("C")
@@ -106,9 +107,24 @@ while(True):
     command = checkSerialInput()
     if (command != 0):
         # Set Parameters based on received command
-        pass
-        #print("here!\n")
-        #ser.write(b"received\n")
+        if (command[0] == "S"):
+            print("Start Playing")
+            startTime = time.time_ns()
+            paused = False
+            justStarted = True
+            
+        elif (command[0] == "P"):
+            print("Pause Playing")
+            paused = True
+        
+        elif (command[0] == "C"):
+            measure = command[1:-1] # Removes the new line character
+            
+            print("Parsed measure: " + measure)
+            currentMeasure = int(measure)
+            startMeasure = currentMeasure
+            startTime = time.time_ns()
+        
         #startMeasure = 0 # parse from command?
         #startTime = time.time()
         #justStarted = 1

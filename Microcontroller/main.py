@@ -91,7 +91,7 @@ currentOctave = 3
 notesToPlay = {}
 currentlyPlaying = set()
 offsetList = []
-paused = False
+paused = True
 
 # Run scheduling
 
@@ -120,28 +120,27 @@ while(True):
         #paused = 0
 
     else:
-        if (not paused):
-        
-        newMeasure = getMeasureFromTime()
-        if (justStarted or newMeasure > currentMeasure):
-            print("Measure: {}".format(newMeasure))
-            justStarted = 0
-            currentMeasure = newMeasure
-            notesToPlay = scheduledPiece.get(currentMeasure, "none")
-            if (notesToPlay != "none"):
-                offsetList = list(notesToPlay.keys())
-                offsetList.sort()
-            writeData = "C" + str(currentMeasure) + "\n"
-            ser.write(writeData.encode())
-        
-        newOffset = getCurrentOffset()
-        if (len(offsetList) > 0 and newOffset > offsetList[0]):
-            # print(".")
-            # print(offsetList[0])
-            if (notesToPlay != "none"):
-                notesAtOffset = notesToPlay.get(offsetList[0], "none")
-            if (notesAtOffset != "none"):
-                playNotes(notesAtOffset, currentOctave)
-            offsetList = offsetList[1:]
-    else:
-        pass
+        if (not paused and currentMeasure <= totalMeasures):
+            newMeasure = getMeasureFromTime()
+            if (justStarted or newMeasure > currentMeasure):
+                print("Measure: {}".format(newMeasure))
+                justStarted = 0
+                currentMeasure = newMeasure
+                notesToPlay = scheduledPiece.get(currentMeasure, "none")
+                if (notesToPlay != "none"):
+                    offsetList = list(notesToPlay.keys())
+                    offsetList.sort()
+                writeData = "C" + str(currentMeasure) + "\n"
+                ser.write(writeData.encode())
+            
+            newOffset = getCurrentOffset()
+            if (len(offsetList) > 0 and newOffset > offsetList[0]):
+                # print(".")
+                # print(offsetList[0])
+                if (notesToPlay != "none"):
+                    notesAtOffset = notesToPlay.get(offsetList[0], "none")
+                if (notesAtOffset != "none"):
+                    playNotes(notesAtOffset, currentOctave)
+                offsetList = offsetList[1:]
+        else:
+            pass

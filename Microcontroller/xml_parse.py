@@ -43,10 +43,10 @@ def addNoteToValue(thisNote, offset, value, measureDuration):
 
 def schedule(xmlFile, scheduledPiece):
     s = converter.parseFile(xmlFile)
-    s.show('text')
+    # s.show('text')
 
     flattened = s.flatten()
-    flattened.show('text')
+    # flattened.show('text')
 
     totalMeasures = flattened.notes[-1].measureNumber
     
@@ -85,20 +85,20 @@ def schedule(xmlFile, scheduledPiece):
     measureDuration = beatCount * beatDuration
     measureDuration_ns = int(quarterLength_ns * beatType * beatCount)
 
-    print("Beat Duration: " + str(beatDuration) + "\n")
-    print("Beat Count: " + str(beatCount) + "\n")
-    print("Beat Type: " + str(beatType) + "\n")
-    print("Tempo Value: " + str(tempoValue) + "\n")
-    print("Duration of a measure in nanoseconds: " + str(measureDuration_ns))
+    # print("Beat Duration: " + str(beatDuration) + "\n")
+    # print("Beat Count: " + str(beatCount) + "\n")
+    # print("Beat Type: " + str(beatType) + "\n")
+    # print("Tempo Value: " + str(tempoValue) + "\n")
+    # print("Duration of a measure in nanoseconds: " + str(measureDuration_ns))
 
     # Mapping for notes to scheduledNotes dictionary
     # Key is measure number, value is a 
 
     for thisChord in flattened.getElementsByClass(chord.Chord):
-        print("Measure number " + str(thisChord.offset))
-        print(thisChord.pitchNames)
-        print(thisChord.duration.quarterLength)
-        print(thisChord.tie)
+        # print("Measure number " + str(thisChord.offset))
+        # print(thisChord.pitchNames)
+        # print(thisChord.duration.quarterLength)
+        # print(thisChord.tie)
         
         measureNumber = int(thisChord.measureNumber)
         value = scheduledPiece.get(measureNumber, "none")
@@ -107,16 +107,16 @@ def schedule(xmlFile, scheduledPiece):
         
         for thisNote in thisChord.notes:
             offset = (thisChord.offset % (measureDuration)) / (measureDuration)
-            print("offset: " + str(offset))
+            # print("offset: " + str(offset))
 
             addNoteToValue(thisNote, offset, value, measureDuration)
         
         scheduledPiece[measureNumber] = value
         
     for thisNote in flattened.getElementsByClass(note.Note):
-        print(thisNote.offset)
-        print(thisNote.name)
-        print(thisNote.duration.quarterLength)
+        # print(thisNote.offset)
+        # print(thisNote.name)
+        # print(thisNote.duration.quarterLength)
         
         measureNumber = int(thisNote.measureNumber)
         value = scheduledPiece.get(measureNumber, "none")
@@ -124,7 +124,7 @@ def schedule(xmlFile, scheduledPiece):
             value = dict()
         
         offset = (thisNote.offset % (measureDuration)) / (measureDuration)
-        print("offset: " + str(offset))
+        # print("offset: " + str(offset))
 
         addNoteToValue(thisNote, offset, value, measureDuration)
         

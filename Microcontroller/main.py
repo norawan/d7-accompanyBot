@@ -68,14 +68,15 @@ def getCurrentOffset():
 
 def checkSerialInput():
     if (ser.inWaiting() == 0):
-        
         return 0
     else:
         buf = ser.readline()
-        print(buf)
-        return 1
+        print(buf.decode())
+        ser.write(b"received\n")
+        return buf.decode()
+    
 # Set up hardware
-ser = serial.Serial('/dev/serial0', 115200, timeout=1)
+ser = serial.Serial('/dev/serial0', 115200, timeout=10)
 
 pi = setUpPins()
 
@@ -90,22 +91,24 @@ currentOctave = 3
 notesToPlay = {}
 currentlyPlaying = set()
 offsetList = []
-paused = 0
+paused = False
 
 # Run scheduling
 
 scheduledPiece = dict()
 (measureDuration, totalMeasures, scheduledPiece) = schedule("MetronomeTest120bpm.xml", scheduledPiece)
-print(scheduledPiece)
+# print(scheduledPiece)
 
-mapNotes("C")
+# mapNotes("C")
 
 # Golden Loop
 while(True):
     command = checkSerialInput()
     if (command != 0):
-        print("here!\n")
-        ser.write(b"received\n")
+        # Set Parameters based on received command
+        pass
+        #print("here!\n")
+        #ser.write(b"received\n")
         #startMeasure = 0 # parse from command?
         #startTime = time.time()
         #justStarted = 1
@@ -116,16 +119,20 @@ while(True):
         #offsetList = []
         #paused = 0
 
-    elif (command == 0):
+    else:
+        if (not paused):
+        
         newMeasure = getMeasureFromTime()
         if (justStarted or newMeasure > currentMeasure):
-            # print(newMeasure)
+            print("Measure: {}".format(newMeasure))
             justStarted = 0
             currentMeasure = newMeasure
             notesToPlay = scheduledPiece.get(currentMeasure, "none")
             if (notesToPlay != "none"):
                 offsetList = list(notesToPlay.keys())
                 offsetList.sort()
+            writeData = "C" + str(currentMeasure) + "\n"
+            ser.write(writeData.encode())
         
         newOffset = getCurrentOffset()
         if (len(offsetList) > 0 and newOffset > offsetList[0]):

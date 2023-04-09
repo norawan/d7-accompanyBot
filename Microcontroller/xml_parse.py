@@ -72,8 +72,8 @@ def schedule(xmlFile, scheduledPiece):
         beatType = tempoMark.referent.quarterLength
         tempoValue = tempoMark.number
     if (tempoValue == -1):
-        print("ERROR: No Tempo detected. Using 60BPM as default\n")
-        tempoValue = 60
+        print("ERROR: No Tempo detected. Using 120BPM as default\n")
+        tempoValue = 120
     if (beatType == -1):
         print("ERROR: No beatType detected. Using quarter note as default\n")
         beatType = 1

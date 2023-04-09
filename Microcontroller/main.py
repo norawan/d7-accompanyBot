@@ -53,17 +53,20 @@ def playNotes(setOfNotes, currentOctave):
             pi.write(pin, state)
     
     # print(currentlyPlaying)
+    
+def stopPlaying():
+    pi.clear_bank_1(POSSIBLE_PINS)
 
 def getMeasureFromTime():
     currentTime = time.time_ns()
     elapsedTime = currentTime - startTime
-    measureNumber = elapsedTime // measureDuration + startMeasure
+    measureNumber = elapsedTime // measureDuration + (startMeasure)
     return measureNumber
 
 def getCurrentOffset():
     currentTime = time.time_ns()
     elapsedTime = currentTime - startTime
-    offset = (elapsedTime / measureDuration) - currentMeasure + startMeasure
+    offset = (elapsedTime / measureDuration) - (currentMeasure) + startMeasure
     return offset
 
 def checkSerialInput():
@@ -72,7 +75,7 @@ def checkSerialInput():
     else:
         buf = ser.readline()
         print(buf)
-        ser.write(b"received\n")
+        #ser.write(b"received\n")
         return buf.decode()
     
 # Set up hardware
@@ -98,6 +101,8 @@ paused = True
 
 scheduledPiece = dict()
 (measureDuration, totalMeasures, scheduledPiece) = schedule("Charlie_Brown_Theme.xml", scheduledPiece)
+totalMeasureData = "T" + str(totalMeasures) + "\n"
+ser.write(totalMeasureData.encode())
 # print(scheduledPiece)
 
 # mapNotes("C")
@@ -115,25 +120,18 @@ while(True):
             
         elif (command[0] == "P"):
             print("Pause Playing")
+            stopPlaying()
             paused = True
         
         elif (command[0] == "C"):
             measure = command[1:-1] # Removes the new line character
             
             print("Parsed measure: " + measure)
-            currentMeasure = int(measure)
-            startMeasure = currentMeasure
+            
+            startMeasure = int(measure)
+            currentMeasure = startMeasure
             startTime = time.time_ns()
-        
-        #startMeasure = 0 # parse from command?
-        #startTime = time.time()
-        #justStarted = 1
-        #currentMeasure = startMeasure - 1
-        #currentOffset = 0
-        #notesToPlay = {}
-        #currentlyPlaying = {}
-        #offsetList = []
-        #paused = 0
+            justStarted = True
 
     else:
         if (not paused and currentMeasure <= totalMeasures):

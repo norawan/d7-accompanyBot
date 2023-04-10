@@ -7,6 +7,18 @@ class Note:
         self.pitch = pitch
         self.octave = octave
         self.state = state # 1 for pressing down, 0 for lifting up
+    
+class TempoObject:
+    def __init__(self, tempoValue, beatType, beatCount, beatDuration):
+        self.tempoValue = tempoValue
+        self.beatType = beatType
+        self.beatCount = beatCount
+        self.beatDuration = beatDuration
+    
+    def getMeasureDuration_ns(self):
+        quarterLength_ns = 60000000000 / (self.tempoValue * self.beatType)
+        measureDuration = self.beatCount * self.beatDuration 
+        return int(quarterLength_ns *  measureDuration)
 
 def addNoteToValue(thisNote, offset, value, measureDuration):
     pitch = thisNote.name
@@ -81,9 +93,8 @@ def schedule(xmlFile, scheduledPiece):
     # (60,000,000,000 / tempo * beatType) = duration of a quarter note in ns
     # i.e. In a song with 120 bpm and 1 beat is 1 quarter note, a quarter note 
     #      will be (60,000 / (120 * 1)) = 500 ms long
-    quarterLength_ns = 60000000000 / (tempoValue * beatType)
-    measureDuration = beatCount * beatDuration
-    measureDuration_ns = int(quarterLength_ns * beatType * beatCount)
+    tempoInfo = TempoObject(tempoValue, beatType, beatCount, beatDuration)
+    measureDuration = beatCount * beatDuration 
 
     # print("Beat Duration: " + str(beatDuration) + "\n")
     # print("Beat Count: " + str(beatCount) + "\n")
@@ -141,4 +152,4 @@ def schedule(xmlFile, scheduledPiece):
 
         scheduledPiece[measureNumber] = value
 
-    return (measureDuration_ns, totalMeasures, scheduledPiece)
+    return (tempoInfo, totalMeasures, scheduledPiece)

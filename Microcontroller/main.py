@@ -4,23 +4,11 @@ from xml_parse import *
 from macros import *
 
 import time
+import sys
 import serial
 
-def mapNotes(startingNote):
-    """Maps the note:pin noteToPinDict dictionary based on the starting note.
-       Starting note must be a white key
-    
-    Args: startingNote (String): the note that the octave starts at
-    """
-    startIndex = startingNoteToOffset.get(startingNote, "ERROR")
-    if (startIndex == "ERROR"):
-        print("Does not start on a white key")
-        return
-    
-    for element in noteToPinIndex:
-        print(element)
-        elementIndex = noteToPinIndex[element]
-        print(elementIndex)
+DEBUG = True
+RPI_CONNECTED = True
 
 def isNoteInRange(note, octave):
     return True
@@ -30,7 +18,6 @@ def playNotes(setOfNotes, currentOctave):
     
     Args: currentMeasure (int): The time step to retreive notes for
     """
-    # print(bin(pi.read_bank_1())) # For debugging
     for note in setOfNotes:
         pitch = note.pitch
         octave = note.octave
@@ -38,7 +25,7 @@ def playNotes(setOfNotes, currentOctave):
         
         pin = noteToPinDict.get(pitch, "NO PIN")
         if (pin == "NO PIN"):
-            print("Error: Not a valid pitch\n")
+            print("ERROR: Not a valid pitch\n")
         elif (not isNoteInRange(note, octave)):
             print("Note outside of current octave\n")
         else:
@@ -47,48 +34,49 @@ def playNotes(setOfNotes, currentOctave):
                 if (len(currentlyPlaying) == 5):
                     break
                 currentlyPlaying.add(pitch)
+                if (DEBUG): print(".")
             else:
                 if (pitch in currentlyPlaying):
                     currentlyPlaying.remove(pitch)
-            pi.write(pin, state)
+            if (RPI_CONNECTED): pi.write(pin, state)
     
-    # print(currentlyPlaying)
+    if (DEBUG): print(currentlyPlaying)
     
 def stopPlaying():
-    pi.clear_bank_1(POSSIBLE_PINS)
+    if (RPI_CONNECTED): pi.clear_bank_1(POSSIBLE_PINS)
 
 def getMeasureFromTime():
     currentTime = time.time_ns()
     elapsedTime = currentTime - startTime
-    measureNumber = elapsedTime // measureDuration + (startMeasure)
+    measureNumber = elapsedTime // measureDuration_ns + (startMeasure)
     return measureNumber
 
 def getCurrentOffset():
     currentTime = time.time_ns()
     elapsedTime = currentTime - startTime
-    offset = (elapsedTime / measureDuration) - (currentMeasure) + startMeasure
+    offset = (elapsedTime / measureDuration_ns) - currentMeasure + startMeasure
     return offset
 
 def checkSerialInput():
-    if (ser.inWaiting() == 0):
-        return 0
-    else:
-        buf = ser.readline()
-        print(buf)
-        #ser.write(b"received\n")
-        return buf.decode()
-    
-# Set up hardware
-ser = serial.Serial('/dev/serial0', 115200, timeout=10)
+    if (RPI_CONNECTED):
+        if (ser.inWaiting() == 0):
+            return
+        else:
+            buf = ser.readline()
+            if (DEBUG): print(buf)
+            return buf.decode()
 
-pi = setUpPins()
+# Set up hardware
+if (RPI_CONNECTED): ser = serial.Serial('/dev/serial0', 115200, timeout=10)
+
+if (RPI_CONNECTED): pi = setUpPins()
 
 # Initializing variables
 
 startTime = time.time_ns()
 startMeasure = 1
-currentMeasure = 1
-totalMeasures = 10
+currentMeasure = 2
+totalMeasures = 0
 justStarted = True
 currentOffset = 0
 currentOctave = 3
@@ -98,58 +86,98 @@ offsetList = []
 paused = True
 
 # Run scheduling
-
 scheduledPiece = dict()
-(measureDuration, totalMeasures, scheduledPiece) = schedule("Charlie_Brown_Theme.xml", scheduledPiece)
-totalMeasureData = "T" + str(totalMeasures) + "\n"
-ser.write(totalMeasureData.encode())
-# print(scheduledPiece)
+(tempoInfo, totalMeasures, scheduledPiece) = schedule("MetronomeTest120bpm.xml", scheduledPiece)
+measureDuration_ns = tempoInfo.getMeasureDuration_ns()
+if (DEBUG): print(scheduledPiece)
 
-# mapNotes("C")
+startTime = time.time_ns()
 
 # Golden Loop
 while(True):
     command = checkSerialInput()
-    if (command != 0):
+    if (command != None):
         # Set Parameters based on received command
+
+        # Play 
         if (command[0] == "S"):
-            print("Start Playing")
-            startTime = time.time_ns()
+            if (DEBUG): print("Start Playing")
             paused = False
             justStarted = True
-            
+            startTime = time.time_ns()
+
+        # Pause   
         elif (command[0] == "P"):
-            print("Pause Playing")
+            if (DEBUG): print("Pause Playing")
             stopPlaying()
             paused = True
         
+        # Change the current measure
         elif (command[0] == "C"):
             measure = command[1:-1] # Removes the new line character
             
-            print("Parsed measure: " + measure)
+            if (DEBUG): print("Parsed measure: " + measure)
             
             startMeasure = int(measure)
             currentMeasure = startMeasure
-            startTime = time.time_ns()
             justStarted = True
+            startTime = time.time_ns()
+
+        # New Tempo Received
+        elif (command[0] == "T"):
+            newTempo = command[1:-1] # Removes the new line character
+
+            if (DEBUG): print("New Tempo: " + newTempo)
+
+            tempoInfo.tempoValue = newTempo
+            measureDuration_ns = tempoInfo.getMeasureDuration_ns()
+            startMeasure = currentMeasure
+            startTime = time.time_ns()
+
+        # File received
+        elif (command[0] == "F"): 
+            file = command[1:-1] # Removes the new line character
+            
+            # Check that file exists
+            try: 
+                open(file)
+            except: 
+                print("ERROR: File not found")
+                # Tell computer that file upload failed
+                break
+
+            (tempoInfo, totalMeasures, scheduledPiece) = schedule(file, scheduledPiece)
+            measureDuration_ns = tempoInfo.getMeasureDuration_ns()
+
+            # Initialize variables for the new song
+            startMeasure = 1
+            currentMeasure = 1
+            currentOffset = 0
+            notesToPlay = {}
+            currentlyPlaying = set()
+            offsetList = []
+            paused = True
 
     else:
         if (not paused and currentMeasure <= totalMeasures):
             newMeasure = getMeasureFromTime()
             if (justStarted or newMeasure > currentMeasure):
-                print("Measure: {}".format(newMeasure))
+                if (DEBUG): print("Measure: {}".format(newMeasure))
+                
                 justStarted = 0
                 currentMeasure = newMeasure
                 notesToPlay = scheduledPiece.get(currentMeasure, "none")
                 if (notesToPlay != "none"):
                     offsetList = list(notesToPlay.keys())
                     offsetList.sort()
+                
+                # Send new measure number over serial port to computer
                 writeData = "C" + str(currentMeasure) + "\n"
-                ser.write(writeData.encode())
+                if (RPI_CONNECTED): ser.write(writeData.encode())
             
             newOffset = getCurrentOffset()
+            # print("offset" + str(newOffset))
             if (len(offsetList) > 0 and newOffset > offsetList[0]):
-                # print(".")
                 # print(offsetList[0])
                 if (notesToPlay != "none"):
                     notesAtOffset = notesToPlay.get(offsetList[0], "none")

@@ -9,6 +9,7 @@ import serial
 
 DEBUG = True
 RPI_CONNECTED = True
+XML_FILES_PATH = "/home/team-d7/d7-accompanyBot/XMLFiles/"
 
 def isNoteInRange(note, octave):
     return True
@@ -58,24 +59,24 @@ def getCurrentOffset():
     return offset
 
 def checkSerialInput():
-    if (RPI_CONNECTED):
-        if (ser.inWaiting() == 0):
-            return
-        else:
-            buf = ser.readline()
-            if (DEBUG): print(buf)
-            return buf.decode()
+    
+    if (ser.inWaiting() == 0):
+        return None
+    else:
+        buf = ser.readline()
+        print(buf)
+        return buf.decode()
 
 # Set up hardware
-if (RPI_CONNECTED): ser = serial.Serial('/dev/serial0', 115200, timeout=10)
+ser = serial.Serial('/dev/serial0', 115200, timeout=10)
 
-if (RPI_CONNECTED): pi = setUpPins()
+pi = setUpPins()
 
 # Initializing variables
 
 startTime = time.time_ns()
 startMeasure = 1
-currentMeasure = 2
+currentMeasure = 1
 totalMeasures = 0
 justStarted = True
 currentOffset = 0
@@ -102,9 +103,12 @@ while(True):
         # Play 
         if (command[0] == "S"):
             if (DEBUG): print("Start Playing")
-            paused = False
-            justStarted = True
-            startTime = time.time_ns()
+            
+            if (paused):
+                paused = False
+                justStarted = True
+                startMeasure = currentMeasure
+                startTime = time.time_ns()
 
         # Pause   
         elif (command[0] == "P"):
@@ -138,26 +142,30 @@ while(True):
         elif (command[0] == "F"): 
             file = command[1:-1] # Removes the new line character
             
+            filepath = XML_FILES_PATH + file
+            
+            print(filepath)
+            
             # Check that file exists
             try: 
-                open(file)
+                open(filepath) # To catch the exception for if the file doesn't exist
+                
+                (tempoInfo, totalMeasures, newScheduledPiece) = schedule(filepath, scheduledPiece)
+                scheduledPiece = newScheduledPiece
+                measureDuration_ns = tempoInfo.getMeasureDuration_ns()
+
+                # Initialize variables for the new song
+                startMeasure = 1
+                currentMeasure = 1
+                currentOffset = 0
+                notesToPlay = {}
+                currentlyPlaying = set()
+                offsetList = []
+                paused = True
             except: 
                 print("ERROR: File not found")
                 # Tell computer that file upload failed
-                break
-
-            (tempoInfo, totalMeasures, scheduledPiece) = schedule(file, scheduledPiece)
-            measureDuration_ns = tempoInfo.getMeasureDuration_ns()
-
-            # Initialize variables for the new song
-            startMeasure = 1
-            currentMeasure = 1
-            currentOffset = 0
-            notesToPlay = {}
-            currentlyPlaying = set()
-            offsetList = []
-            paused = True
-
+                
     else:
         if (not paused and currentMeasure <= totalMeasures):
             newMeasure = getMeasureFromTime()

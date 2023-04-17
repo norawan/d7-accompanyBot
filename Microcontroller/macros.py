@@ -72,19 +72,9 @@ noteToPinDict = {
     "A" : PIN10,
     "A#" : PIN11,
     "B-" : PIN11,
-    "B" : PIN12
+    "B" : PIN12,
+    "C-" : PIN12
     # space between B/C is not mapped
-}
-
-# Possible starting notes and their associated offset
-startingNoteToOffset = {
-    "C" : 0,
-    "D" : 1,
-    "E" : 2,
-    "F" : 3,
-    "G" : 4,
-    "A" : 5,
-    "B" : 6
 }
 
 # Note to pin index
@@ -106,9 +96,10 @@ noteToPinIndex = {
     "A" : 10,
     "A#" : 11,
     "B-" : 11,
-    "B" : 12
+    "B" : 12,
+    "C-" : 12
     # space between B/C is not mapped
 }
 
-setOfPitchNames = { "C", "C#", "D-", "D", "D#", "E-", "E", "F", "F#",  "G-",
+setOfPitchNames = { "C-", "C", "C#", "D-", "D", "D#", "E-", "E", "F", "F#",  "G-",
                     "G", "G#", "A-", "A", "A#", "B-", "B" }

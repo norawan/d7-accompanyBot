@@ -17,11 +17,16 @@ def isValidCommand(input):
             return False
     elif (input[0] == "F"):
         return True
+    elif (input[0] == "T"):
+        if (int(input[1:]) >= 0):
+            return True
+        else: 
+            return False
     else: 
         return False
 
 # Serial communication parameters
-port = '/dev/tty.usbmodem101'
+port = '/dev/tty.usbmodem2101'
 baudrate = 115200
 timeoutTime = 1
 

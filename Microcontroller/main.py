@@ -149,23 +149,24 @@ while(True):
             # Check that file exists
             try: 
                 open(filepath) # To catch the exception for if the file doesn't exist
-                
-                (tempoInfo, totalMeasures, newScheduledPiece) = schedule(filepath, scheduledPiece)
-                scheduledPiece = newScheduledPiece
-                measureDuration_ns = tempoInfo.getMeasureDuration_ns()
-
-                # Initialize variables for the new song
-                startMeasure = 1
-                currentMeasure = 1
-                currentOffset = 0
-                notesToPlay = {}
-                currentlyPlaying = set()
-                offsetList = []
-                paused = True
             except: 
                 print("ERROR: File not found")
-                # Tell computer that file upload failed
-                
+                break
+
+            (tempoInfo, totalMeasures, newScheduledPiece) = schedule(filepath, scheduledPiece)
+            ser.write(("N" + str(totalMeasures) + "\n").encode())
+            
+            scheduledPiece = newScheduledPiece
+            measureDuration_ns = tempoInfo.getMeasureDuration_ns()
+
+            # Initialize variables for the new song
+            startMeasure = 1
+            currentMeasure = 1
+            currentOffset = 0
+            notesToPlay = {}
+            currentlyPlaying = set()
+            offsetList = []
+            paused = True    
     else:
         if (not paused and currentMeasure <= totalMeasures):
             newMeasure = getMeasureFromTime()

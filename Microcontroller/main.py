@@ -1,7 +1,7 @@
 from gpio import *
 from music21 import *
 from xml_parse import *
-from macros import *
+from pin_mapping import *
 
 import time
 import sys
@@ -9,7 +9,12 @@ import serial
 
 DEBUG = True
 RPI_CONNECTED = True
+RPI_SER_PORT = '/dev/serial0'
+DEFAULT_BAUD = 115200
+MAX_LATENCY = 0.150 # in seconds
 XML_FILES_PATH = "/home/team-d7/d7-accompanyBot/XMLFiles/"
+DEFAULT_OCTAVE = 3
+MAX_NOTES = 5
 
 def isNoteInRange(note, octave):
     return True
@@ -32,7 +37,7 @@ def playNotes(setOfNotes, currentOctave):
         else:
             # Note is playable
             if (state):
-                if (len(currentlyPlaying) == 5):
+                if (len(currentlyPlaying) == MAX_NOTES):
                     break
                 currentlyPlaying.add(pitch)
                 if (DEBUG): print(".")
@@ -68,9 +73,9 @@ def checkSerialInput():
         return buf.decode()
 
 # Set up hardware
-ser = serial.Serial('/dev/serial0', 115200, timeout=10)
+if (RPI_CONNECTED): ser = serial.Serial(RPI_SER_PORT, DEFAULT_BAUD, timeout=MAX_LATENCY)
 
-pi = setUpPins()
+if (RPI_CONNECTED): pi = setUpPins()
 
 # Initializing variables
 
@@ -80,7 +85,7 @@ currentMeasure = 1
 totalMeasures = 0
 justStarted = True
 currentOffset = 0
-currentOctave = 3
+currentOctave = DEFAULT_OCTAVE
 notesToPlay = {}
 currentlyPlaying = set()
 offsetList = []
@@ -88,7 +93,11 @@ paused = True
 
 # Run scheduling
 scheduledPiece = dict()
-(tempoInfo, totalMeasures, scheduledPiece) = schedule("MetronomeTest120bpm.xml", scheduledPiece)
+(tempoInfo, totalMeasures, scheduledPiece) = schedule("~/Documents/Capstone/d7-accompanyBot/XMLFiles/Take_Five.xml", scheduledPiece)
+if (tempoInfo.tempoValue > tempoInfo.maxTempo):
+    print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
+    tempoInfo.tempoValue = tempoInfo.maxTempo
+
 measureDuration_ns = tempoInfo.getMeasureDuration_ns()
 if (DEBUG): print(scheduledPiece)
 
@@ -129,11 +138,15 @@ while(True):
 
         # New Tempo Received
         elif (command[0] == "T"):
-            newTempo = command[1:-1] # Removes the new line character
+            newTempo = int(command[1:-1]) # Removes the new line character
 
-            if (DEBUG): print("New Tempo: " + newTempo)
+            if (DEBUG): print("New Tempo: " + str(newTempo))
 
-            tempoInfo.tempoValue = newTempo
+            if (newTempo > tempoInfo.maxTempo):
+                print(f"ERROR: Input tempo of {newTempo} too high. Using max tempo of {tempoInfo.maxTempo} instead")
+            tempoInfo.tempoValue = min(tempoInfo.maxTempo, newTempo)
+
+            # Recalculate measure duration and set time variables
             measureDuration_ns = tempoInfo.getMeasureDuration_ns()
             startMeasure = currentMeasure
             startTime = time.time_ns()
@@ -154,7 +167,14 @@ while(True):
                 break
 
             (tempoInfo, totalMeasures, newScheduledPiece) = schedule(filepath, scheduledPiece)
+            
+            # Check that tempo is not too high
+            if (tempoInfo.tempoValue > tempoInfo.maxTempo):
+                print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
+                tempoInfo.tempoValue = tempoInfo.maxTempo
+            
             ser.write(("N" + str(totalMeasures) + "\n").encode())
+            ser.write(("M" + str(tempoInfo.maxTempo) + "\n").encode())
             
             scheduledPiece = newScheduledPiece
             measureDuration_ns = tempoInfo.getMeasureDuration_ns()

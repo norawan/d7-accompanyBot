@@ -1,5 +1,5 @@
 import pigpio
-from macros import *
+from pin_mapping import *
 
 # Set up pins as outputs
 def setUpPins():

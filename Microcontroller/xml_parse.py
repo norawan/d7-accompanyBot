@@ -1,6 +1,11 @@
 from music21 import *
 from gpio import *
-from macros import *
+from pin_mapping import *
+
+# Solenoids can only play four notes a second (250ms to go down and up), so a 
+# note cannot be longer than 125ms
+MINIMUM_NOTE_DURATION_NS = 125000000 
+NUM_NS_IN_ONE_MINUTE = 60000000000
 
 class Note:
     def __init__(self, pitch, octave, state):
@@ -9,14 +14,15 @@ class Note:
         self.state = state # 1 for pressing down, 0 for lifting up
     
 class TempoObject:
-    def __init__(self, tempoValue, beatType, beatCount, beatDuration):
+    def __init__(self, tempoValue, beatType, beatCount, beatDuration, maxTempo):
         self.tempoValue = tempoValue
         self.beatType = beatType
         self.beatCount = beatCount
         self.beatDuration = beatDuration
+        self.maxTempo = maxTempo
     
     def getMeasureDuration_ns(self):
-        quarterLength_ns = 60000000000 / (self.tempoValue * self.beatType)
+        quarterLength_ns = NUM_NS_IN_ONE_MINUTE / (self.tempoValue * self.beatType)
         measureDuration = self.beatCount * self.beatDuration 
         return int(quarterLength_ns *  measureDuration)
 
@@ -52,10 +58,12 @@ def addNoteToValue(thisNote, offset, value, measureDuration):
         upNote = Note(pitch, octave, 0)
         upNotesScheduled.add(upNote)
         value[liftTime] = upNotesScheduled
+    
+    return duration
 
 def schedule(xmlFile, scheduledPiece):
     s = converter.parseFile(xmlFile)
-    # s.show('text')
+    s.show('text')
 
     flattened = s.flatten()
     # flattened.show('text')
@@ -80,6 +88,20 @@ def schedule(xmlFile, scheduledPiece):
     # Get Tempo Info
     beatType = -1
     tempoValue = -1
+
+    # Uses the format for badly parsed tempos (Tempos show up as "J=" or "J:")
+    for textBox in flattened.getElementsByClass(text.TextBox):
+        string = textBox.content
+        # print(string)
+        if ("J=" in string):
+            arr = string.split("J=")
+            tempoValue = int(arr[1])
+        if ("J:" in string):
+            arr = string.split("J:")
+            tempoValue = int(arr[1])
+    print("Tempo: " + str(tempoValue))
+
+    # Actual tempo data structure in music21
     for tempoMark in flattened.getElementsByClass(tempo.MetronomeMark):
         beatType = tempoMark.referent.quarterLength
         tempoValue = tempoMark.number
@@ -93,8 +115,9 @@ def schedule(xmlFile, scheduledPiece):
     # (60,000,000,000 / tempo * beatType) = duration of a quarter note in ns
     # i.e. In a song with 120 bpm and 1 beat is 1 quarter note, a quarter note 
     #      will be (60,000 / (120 * 1)) = 500 ms long
-    tempoInfo = TempoObject(tempoValue, beatType, beatCount, beatDuration)
     measureDuration = beatCount * beatDuration 
+
+    smallestDuration = -1
 
     # print("Beat Duration: " + str(beatDuration) + "\n")
     # print("Beat Count: " + str(beatCount) + "\n")
@@ -103,7 +126,6 @@ def schedule(xmlFile, scheduledPiece):
     # print("Duration of a measure in nanoseconds: " + str(measureDuration_ns))
 
     # Mapping for notes to scheduledNotes dictionary
-    # Key is measure number, value is a 
 
     for thisChord in flattened.getElementsByClass(chord.Chord):
         # print("Measure number " + str(thisChord.offset))
@@ -120,8 +142,13 @@ def schedule(xmlFile, scheduledPiece):
             offset = (thisChord.offset % (measureDuration)) / (measureDuration)
             # print("offset: " + str(offset))
 
-            addNoteToValue(thisNote, offset, value, measureDuration)
-        
+            noteDuration = addNoteToValue(thisNote, offset, value, measureDuration)
+            if (smallestDuration == -1):
+                smallestDuration = noteDuration
+            else:
+                if (noteDuration < smallestDuration):
+                    smallestDuration = noteDuration
+
         scheduledPiece[measureNumber] = value
         
     for thisNote in flattened.getElementsByClass(note.Note):
@@ -137,8 +164,13 @@ def schedule(xmlFile, scheduledPiece):
         offset = (thisNote.offset % (measureDuration)) / (measureDuration)
         # print("offset: " + str(offset))
 
-        addNoteToValue(thisNote, offset, value, measureDuration)
-        
+        noteDuration = addNoteToValue(thisNote, offset, value, measureDuration)
+        if (smallestDuration == -1):
+            smallestDuration = noteDuration
+        else:
+            if (noteDuration < smallestDuration):
+                smallestDuration = noteDuration
+
         scheduledPiece[measureNumber] = value
     
     for thisRest in flattened.getElementsByClass(note.Rest):
@@ -151,5 +183,18 @@ def schedule(xmlFile, scheduledPiece):
         value[offset] = {}
 
         scheduledPiece[measureNumber] = value
+
+        restDuration = thisRest.duration
+        if (smallestDuration == -1):
+            smallestDuration = restDuration
+        else:
+            if (noteDuration < smallestDuration):
+                smallestDuration = restDuration
+
+    print("Smallest duration: " + str(smallestDuration))
+
+    maxTempo = (NUM_NS_IN_ONE_MINUTE / MINIMUM_NOTE_DURATION_NS) * (smallestDuration / beatType)
+
+    tempoInfo = TempoObject(tempoValue, beatType, beatCount, beatDuration, smallestDuration, maxTempo)
 
     return (tempoInfo, totalMeasures, scheduledPiece)

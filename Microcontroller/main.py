@@ -93,7 +93,7 @@ paused = True
 
 # Run scheduling
 scheduledPiece = dict()
-(tempoInfo, totalMeasures, scheduledPiece) = schedule("~/Documents/Capstone/d7-accompanyBot/XMLFiles/Take_Five.xml", scheduledPiece)
+(tempoInfo, totalMeasures, scheduledPiece) = schedule("../XMLFiles/Take_Five.xml", scheduledPiece)
 if (tempoInfo.tempoValue > tempoInfo.maxTempo):
     print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
     tempoInfo.tempoValue = tempoInfo.maxTempo

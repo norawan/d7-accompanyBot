@@ -195,6 +195,6 @@ def schedule(xmlFile, scheduledPiece):
 
     maxTempo = (NUM_NS_IN_ONE_MINUTE / MINIMUM_NOTE_DURATION_NS) * (smallestDuration / beatType)
 
-    tempoInfo = TempoObject(tempoValue, beatType, beatCount, beatDuration, smallestDuration, maxTempo)
+    tempoInfo = TempoObject(tempoValue, beatType, beatCount, beatDuration, maxTempo)
 
     return (tempoInfo, totalMeasures, scheduledPiece)

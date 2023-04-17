@@ -180,7 +180,7 @@ def schedule(xmlFile, scheduledPiece):
             value = dict()
 
         offset = (thisRest.offset % (measureDuration)) / (measureDuration)
-        value[offset] = {}
+        value[offset] = set()
 
         scheduledPiece[measureNumber] = value
 

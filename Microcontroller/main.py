@@ -169,6 +169,7 @@ while(True):
             (tempoInfo, totalMeasures, newScheduledPiece) = schedule(filepath, scheduledPiece)
             
             # Check that tempo is not too high
+            print("Max Tempo: " + str(tempoInfo.maxTempo))
             if (tempoInfo.tempoValue > tempoInfo.maxTempo):
                 print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
                 tempoInfo.tempoValue = tempoInfo.maxTempo

@@ -106,8 +106,8 @@ def schedule(xmlFile, scheduledPiece):
         beatType = tempoMark.referent.quarterLength
         tempoValue = tempoMark.number
     if (tempoValue == -1):
-        print("ERROR: No Tempo detected. Using 120BPM as default\n")
-        tempoValue = 120
+        print("ERROR: No Tempo detected. Using 60BPM as default\n")
+        tempoValue = 60
     if (beatType == -1):
         print("ERROR: No beatType detected. Using quarter note as default\n")
         beatType = 1
@@ -126,7 +126,7 @@ def schedule(xmlFile, scheduledPiece):
     # print("Duration of a measure in nanoseconds: " + str(measureDuration_ns))
 
     # Mapping for notes to scheduledNotes dictionary
-
+    octavesPlayed = {}
     for thisChord in flattened.getElementsByClass(chord.Chord):
         # print("Measure number " + str(thisChord.offset))
         # print(thisChord.pitchNames)
@@ -148,6 +148,14 @@ def schedule(xmlFile, scheduledPiece):
             else:
                 if (noteDuration < smallestDuration):
                     smallestDuration = noteDuration
+            
+            # Count most played octaves
+            currentOctave = thisNote.octave
+            val = octavesPlayed.get(currentOctave, "None")
+            if (val == "None"):
+                octavesPlayed[currentOctave] = 1
+            else:
+                octavesPlayed[currentOctave] = val + 1
 
         scheduledPiece[measureNumber] = value
         
@@ -172,6 +180,14 @@ def schedule(xmlFile, scheduledPiece):
                 smallestDuration = noteDuration
 
         scheduledPiece[measureNumber] = value
+
+        # Count most played octaves
+        currentOctave = thisNote.octave
+        val = octavesPlayed.get(currentOctave, "None")
+        if (val == "None"):
+            octavesPlayed[currentOctave] = 1
+        else:
+            octavesPlayed[currentOctave] = val + 1
     
     for thisRest in flattened.getElementsByClass(note.Rest):
         measureNumber = int(thisRest.measureNumber)
@@ -197,4 +213,17 @@ def schedule(xmlFile, scheduledPiece):
 
     tempoInfo = TempoObject(tempoValue, beatType, beatCount, beatDuration, maxTempo)
 
-    return (tempoInfo, totalMeasures, scheduledPiece)
+    # Get most common octave
+    octaveCount = 0
+    mostCommonOctave = -1
+    for octave in octavesPlayed.keys():
+        print(str(octave) + ": " + str(octavesPlayed[octave]))
+        if octavesPlayed[octave] > octaveCount:
+            octaveCount = octavesPlayed[octave]
+            mostCommonOctave = octave
+    
+    print("Most common octave: " + str(mostCommonOctave))
+
+    return (tempoInfo, totalMeasures, scheduledPiece, mostCommonOctave)
+
+# schedule("XMLFiles/Take_Five.xml", dict())

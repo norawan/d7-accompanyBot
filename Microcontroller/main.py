@@ -7,7 +7,7 @@ import time
 import sys
 import serial
 
-DEBUG = True
+DEBUG = False
 RPI_CONNECTED = True
 RPI_SER_PORT = '/dev/serial0'
 DEFAULT_BAUD = 115200
@@ -16,8 +16,8 @@ XML_FILES_PATH = "/home/team-d7/d7-accompanyBot/XMLFiles/"
 DEFAULT_OCTAVE = 3
 MAX_NOTES = 5
 
-def isNoteInRange(note, octave):
-    return True
+def isNoteInRange(octave):
+    return (octave == currentOctave)
 
 def playNotes(setOfNotes, currentOctave):
     """Plays the notes in a list of notes
@@ -32,7 +32,7 @@ def playNotes(setOfNotes, currentOctave):
         pin = noteToPinDict.get(pitch, "NO PIN")
         if (pin == "NO PIN"):
             print("ERROR: Not a valid pitch\n")
-        elif (not isNoteInRange(note, octave)):
+        elif (not isNoteInRange(octave)):
             print("Note outside of current octave\n")
         else:
             # Note is playable
@@ -64,7 +64,7 @@ def getCurrentOffset():
     return offset
 
 def checkSerialInput():
-    
+    if (not RPI_CONNECTED): return None
     if (ser.inWaiting() == 0):
         return None
     else:
@@ -90,18 +90,19 @@ notesToPlay = {}
 currentlyPlaying = set()
 offsetList = []
 paused = True
+fileLoaded = False
 
 # Run scheduling
-scheduledPiece = dict()
-(tempoInfo, totalMeasures, scheduledPiece) = schedule("../XMLFiles/Take_Five.xml", scheduledPiece)
-if (tempoInfo.tempoValue > tempoInfo.maxTempo):
-    print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
-    tempoInfo.tempoValue = tempoInfo.maxTempo
+# scheduledPiece = dict()
+# (tempoInfo, totalMeasures, scheduledPiece, currentOctave) = schedule("XMLFiles/Take_Five.xml", scheduledPiece)
+# if (tempoInfo.tempoValue > tempoInfo.maxTempo):
+#     print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
+#     tempoInfo.tempoValue = tempoInfo.maxTempo
 
-measureDuration_ns = tempoInfo.getMeasureDuration_ns()
-if (DEBUG): print(scheduledPiece)
+# measureDuration_ns = tempoInfo.getMeasureDuration_ns()
+# if (DEBUG): print(scheduledPiece)
 
-startTime = time.time_ns()
+# startTime = time.time_ns()
 
 # Golden Loop
 while(True):
@@ -113,7 +114,7 @@ while(True):
         if (command[0] == "S"):
             if (DEBUG): print("Start Playing")
             
-            if (paused):
+            if (paused and fileLoaded):
                 paused = False
                 justStarted = True
                 startMeasure = currentMeasure
@@ -166,7 +167,8 @@ while(True):
                 print("ERROR: File not found")
                 break
 
-            (tempoInfo, totalMeasures, newScheduledPiece) = schedule(filepath, scheduledPiece)
+            fileLoaded = True
+            (tempoInfo, totalMeasures, newScheduledPiece, currentOctave) = schedule(filepath, scheduledPiece)
             
             # Check that tempo is not too high
             print("Max Tempo: " + str(tempoInfo.maxTempo))
@@ -176,6 +178,8 @@ while(True):
             
             ser.write(("N" + str(totalMeasures) + "\n").encode())
             ser.write(("M" + str(tempoInfo.maxTempo) + "\n").encode())
+            ser.write(("O" + str(currentOctave) + "\n").encode())
+            ser.write(("C0\n").encode())
             
             scheduledPiece = newScheduledPiece
             measureDuration_ns = tempoInfo.getMeasureDuration_ns()

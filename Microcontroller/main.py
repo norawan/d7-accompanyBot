@@ -78,7 +78,7 @@ if (RPI_CONNECTED): ser = serial.Serial(RPI_SER_PORT, DEFAULT_BAUD, timeout=MAX_
 if (RPI_CONNECTED): pi = setUpPins()
 
 # Initializing variables
-
+scheduledPiece = dict()
 startTime = time.time_ns()
 startMeasure = 1
 currentMeasure = 1
@@ -93,7 +93,6 @@ paused = True
 fileLoaded = False
 
 # Run scheduling
-# scheduledPiece = dict()
 # (tempoInfo, totalMeasures, scheduledPiece, currentOctave) = schedule("XMLFiles/Take_Five.xml", scheduledPiece)
 # if (tempoInfo.tempoValue > tempoInfo.maxTempo):
 #     print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")

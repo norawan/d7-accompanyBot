@@ -63,7 +63,7 @@ def addNoteToValue(thisNote, offset, value, measureDuration):
 
 def schedule(xmlFile, scheduledPiece):
     s = converter.parseFile(xmlFile)
-    s.show('text')
+    # s.show('text')
 
     flattened = s.flatten()
     # flattened.show('text')

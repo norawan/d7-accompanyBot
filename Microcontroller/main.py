@@ -164,35 +164,33 @@ while(True):
             # Check that file exists
             try: 
                 open(filepath) # To catch the exception for if the file doesn't exist
+                fileLoaded = True
+                (tempoInfo, totalMeasures, newScheduledPiece, currentOctave) = schedule(filepath, scheduledPiece)
+                
+                # Check that tempo is not too high
+                print("Max Tempo: " + str(tempoInfo.maxTempo))
+                if (tempoInfo.tempoValue > tempoInfo.maxTempo):
+                    print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
+                    tempoInfo.tempoValue = tempoInfo.maxTempo
+                
+                ser.write(("N" + str(totalMeasures) + "\n").encode())
+                ser.write(("M" + str(tempoInfo.maxTempo) + "\n").encode())
+                ser.write(("O" + str(currentOctave) + "\n").encode())
+                ser.write(("C0\n").encode())
+                
+                scheduledPiece = newScheduledPiece
+                measureDuration_ns = tempoInfo.getMeasureDuration_ns()
+
+                # Initialize variables for the new song
+                startMeasure = 1
+                currentMeasure = 1
+                currentOffset = 0
+                notesToPlay = {}
+                currentlyPlaying = set()
+                offsetList = []
+                paused = True   
             except: 
                 print("ERROR: File not found")
-                break
-
-            fileLoaded = True
-            (tempoInfo, totalMeasures, newScheduledPiece, currentOctave) = schedule(filepath, scheduledPiece)
-            
-            # Check that tempo is not too high
-            print("Max Tempo: " + str(tempoInfo.maxTempo))
-            if (tempoInfo.tempoValue > tempoInfo.maxTempo):
-                print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
-                tempoInfo.tempoValue = tempoInfo.maxTempo
-            
-            ser.write(("N" + str(totalMeasures) + "\n").encode())
-            ser.write(("M" + str(tempoInfo.maxTempo) + "\n").encode())
-            ser.write(("O" + str(currentOctave) + "\n").encode())
-            ser.write(("C0\n").encode())
-            
-            scheduledPiece = newScheduledPiece
-            measureDuration_ns = tempoInfo.getMeasureDuration_ns()
-
-            # Initialize variables for the new song
-            startMeasure = 1
-            currentMeasure = 1
-            currentOffset = 0
-            notesToPlay = {}
-            currentlyPlaying = set()
-            offsetList = []
-            paused = True    
     else:
         if (not paused and currentMeasure <= totalMeasures):
             newMeasure = getMeasureFromTime()

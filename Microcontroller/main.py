@@ -123,35 +123,38 @@ while(True):
 
         # Pause   
         elif (command == "P"):
-            if (DEBUG): print("Pause Playing")
-            stopPlaying()
-            paused = True
+            if (fileLoaded):
+                if (DEBUG): print("Pause Playing")
+                stopPlaying()
+                paused = True
         
         # Change the current measure
         elif (command[0] == "C" and len(command) > 1):
-            measure = command[1:] # Removes the first character
-            
-            if (DEBUG): print("Parsed measure: " + measure)
-            
-            startMeasure = int(measure)
-            currentMeasure = startMeasure
-            justStarted = True
-            startTime = time.time_ns()
+            if (fileLoaded):
+                measure = command[1:] # Removes the first character
+                
+                if (DEBUG): print("Parsed measure: " + measure)
+                
+                startMeasure = int(measure)
+                currentMeasure = startMeasure
+                justStarted = True
+                startTime = time.time_ns()
 
         # New Tempo Received
         elif (command[0] == "T" and len(command) > 1):
-            newTempo = int(command[1:]) # Removes the first character
+            if (fileLoaded):
+                newTempo = int(command[1:]) # Removes the first character
 
-            if (DEBUG): print("New Tempo: " + str(newTempo))
+                if (DEBUG): print("New Tempo: " + str(newTempo))
 
-            if (newTempo > tempoInfo.maxTempo):
-                print(f"ERROR: Input tempo of {newTempo} too high. Using max tempo of {tempoInfo.maxTempo} instead")
-            tempoInfo.tempoValue = min(tempoInfo.maxTempo, newTempo)
+                if (newTempo > tempoInfo.maxTempo):
+                    print(f"ERROR: Input tempo of {newTempo} too high. Using max tempo of {tempoInfo.maxTempo} instead")
+                tempoInfo.tempoValue = min(tempoInfo.maxTempo, newTempo)
 
-            # Recalculate measure duration and set time variables
-            measureDuration_ns = tempoInfo.getMeasureDuration_ns()
-            startMeasure = currentMeasure
-            startTime = time.time_ns()
+                # Recalculate measure duration and set time variables
+                measureDuration_ns = tempoInfo.getMeasureDuration_ns()
+                startMeasure = currentMeasure
+                startTime = time.time_ns()
 
         # File received
         elif (command[0] == "F"  and len(command) > 1): 

@@ -70,7 +70,9 @@ def checkSerialInput():
     else:
         buf = ser.readline()
         print(buf)
-        return buf.decode()
+        command = buf.decode()
+        print(command)
+        return command[:-1] # Remove new line character
 
 # Set up hardware
 if (RPI_CONNECTED): ser = serial.Serial(RPI_SER_PORT, DEFAULT_BAUD, timeout=MAX_LATENCY)
@@ -110,7 +112,7 @@ while(True):
         # Set Parameters based on received command
 
         # Play 
-        if (command[0] == "S"):
+        if (command == "S"):
             if (DEBUG): print("Start Playing")
             
             if (paused and fileLoaded):
@@ -120,14 +122,14 @@ while(True):
                 startTime = time.time_ns()
 
         # Pause   
-        elif (command[0] == "P"):
+        elif (command == "P"):
             if (DEBUG): print("Pause Playing")
             stopPlaying()
             paused = True
         
         # Change the current measure
-        elif (command[0] == "C"):
-            measure = command[1:-1] # Removes the new line character
+        elif (command[0] == "C" and len(command) > 1):
+            measure = command[1:] # Removes the first character
             
             if (DEBUG): print("Parsed measure: " + measure)
             
@@ -137,8 +139,8 @@ while(True):
             startTime = time.time_ns()
 
         # New Tempo Received
-        elif (command[0] == "T"):
-            newTempo = int(command[1:-1]) # Removes the new line character
+        elif (command[0] == "T" and len(command) > 1):
+            newTempo = int(command[1:]) # Removes the first character
 
             if (DEBUG): print("New Tempo: " + str(newTempo))
 
@@ -152,8 +154,8 @@ while(True):
             startTime = time.time_ns()
 
         # File received
-        elif (command[0] == "F"): 
-            file = command[1:-1] # Removes the new line character
+        elif (command[0] == "F"  and len(command) > 1): 
+            file = command[1:] # Removes the first character
             
             filepath = XML_FILES_PATH + file
             

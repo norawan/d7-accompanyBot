@@ -95,13 +95,14 @@ paused = True
 fileLoaded = False
 
 # Run scheduling
-# (tempoInfo, totalMeasures, scheduledPiece, currentOctave) = schedule("XMLFiles/Take_Five.xml", scheduledPiece)
-# if (tempoInfo.tempoValue > tempoInfo.maxTempo):
-#     print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
-#     tempoInfo.tempoValue = tempoInfo.maxTempo
+(tempoInfo, totalMeasures, scheduledPiece, currentOctave) = schedule("XMLFiles/Take_Five.xml", scheduledPiece)
+if (tempoInfo.tempoValue > tempoInfo.maxTempo):
+    print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
+    tempoInfo.tempoValue = tempoInfo.maxTempo
+fileLoaded = True
 
 # measureDuration_ns = tempoInfo.getMeasureDuration_ns()
-# if (DEBUG): print(scheduledPiece)
+if (DEBUG): print(scheduledPiece)
 
 # startTime = time.time_ns()
 
@@ -121,12 +122,16 @@ while(True):
                 startMeasure = currentMeasure
                 startTime = time.time_ns()
 
+                ser.write("L000\n")
+
         # Pause   
         elif (command == "P"):
             if (fileLoaded):
                 if (DEBUG): print("Pause Playing")
                 stopPlaying()
                 paused = True
+            
+            ser.write("L000\n")
         
         # Change the current measure
         elif (command[0] == "C" and len(command) > 1):
@@ -191,7 +196,7 @@ while(True):
                 notesToPlay = {}
                 currentlyPlaying = set()
                 offsetList = []
-                paused = True   
+                paused = True
             except: 
                 print("ERROR: File not found")
     else:

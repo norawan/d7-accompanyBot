@@ -95,7 +95,7 @@ paused = True
 fileLoaded = False
 
 # Run scheduling
-(tempoInfo, totalMeasures, scheduledPiece, currentOctave) = schedule("/home/team-d7/XMLFiles/Take_Five.xml", scheduledPiece)
+(tempoInfo, totalMeasures, scheduledPiece, currentOctave) = schedule("/home/team-d7/d7-accompanyBot/XMLFiles/Take_Five.xml", scheduledPiece)
 if (tempoInfo.tempoValue > tempoInfo.maxTempo):
     print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
     tempoInfo.tempoValue = tempoInfo.maxTempo

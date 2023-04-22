@@ -122,7 +122,7 @@ while(True):
                 startMeasure = currentMeasure
                 startTime = time.time_ns()
 
-                ser.write("L000\n")
+                ser.write("L000\n".encode())
 
         # Pause   
         elif (command == "P"):
@@ -131,7 +131,7 @@ while(True):
                 stopPlaying()
                 paused = True
             
-            ser.write("L000\n")
+            ser.write("L000\n".encode())
         
         # Change the current measure
         elif (command[0] == "C" and len(command) > 1):

@@ -65,7 +65,7 @@
       </score-part>
     </part-list>
   <part id="P1">
-    <measure number="1" width="295.47">
+    <measure number="1" width="313.63">
       <print>
         <system-layout>
           <system-margins>
@@ -91,14 +91,14 @@
         </attributes>
       <direction placement="above">
         <direction-type>
-          <metronome parentheses="no" default-x="-42.14" relative-y="20.00">
+          <metronome parentheses="no" default-x="-66.36" relative-y="20.00">
             <beat-unit>quarter</beat-unit>
             <per-minute>60</per-minute>
             </metronome>
           </direction-type>
         <sound tempo="60"/>
         </direction>
-      <note default-x="84.22" default-y="-50.00">
+      <note default-x="108.44" default-y="-50.00">
         <pitch>
           <step>C</step>
           <octave>4</octave>
@@ -111,7 +111,23 @@
           <tied type="start"/>
           </notations>
         </note>
-      <note default-x="98.04" default-y="-45.00">
+      <note default-x="122.26" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <accidental>sharp</accidental>
+        <notations>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="108.44" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
@@ -125,7 +141,23 @@
           <tied type="start"/>
           </notations>
         </note>
-      <note default-x="84.22" default-y="-40.00">
+      <note default-x="122.26" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <accidental>sharp</accidental>
+        <notations>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="108.44" default-y="-40.00">
         <chord/>
         <pitch>
           <step>E</step>
@@ -139,39 +171,44 @@
           <tied type="start"/>
           </notations>
         </note>
-      <note default-x="98.04" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="84.22" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="start"/>
-          </notations>
-        </note>
       </measure>
-    <measure number="2" width="227.75">
+    <measure number="2" width="221.69">
       <note default-x="16.50" default-y="-50.00">
         <pitch>
           <step>C</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -188,6 +225,7 @@
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -216,43 +254,44 @@
           <tied type="start"/>
           </notations>
         </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
       </measure>
-    <measure number="3" width="227.75">
+    <measure number="3" width="221.69">
       <note default-x="16.50" default-y="-50.00">
         <pitch>
           <step>C</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -269,6 +308,7 @@
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -297,43 +337,44 @@
           <tied type="start"/>
           </notations>
         </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
       </measure>
-    <measure number="4" width="227.75">
+    <measure number="4" width="221.69">
       <note default-x="16.50" default-y="-50.00">
         <pitch>
           <step>C</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -350,6 +391,7 @@
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -366,38 +408,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -436,10 +446,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="75.91" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="62.09" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="75.91" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -456,38 +500,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="75.91" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="62.09" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -517,10 +529,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -537,38 +583,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -598,10 +612,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -618,38 +666,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -679,10 +695,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -699,38 +749,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -769,10 +787,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="75.91" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="62.09" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="75.91" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -789,38 +841,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="75.91" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="62.09" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -850,10 +870,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -870,38 +924,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -931,10 +953,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -951,38 +1007,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1012,10 +1036,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1032,38 +1090,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1102,10 +1128,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="75.91" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="62.09" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="75.91" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1122,38 +1182,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="75.91" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="62.09" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1183,10 +1211,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1203,38 +1265,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1264,10 +1294,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1284,38 +1348,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1345,10 +1377,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1365,38 +1431,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1435,10 +1469,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="75.91" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="62.09" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="75.91" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1455,38 +1523,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="75.91" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="62.09" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1516,10 +1552,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1536,38 +1606,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1597,10 +1635,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1617,38 +1689,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1678,10 +1718,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1698,38 +1772,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1768,10 +1810,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="75.91" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="62.09" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="75.91" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1788,38 +1864,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="75.91" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="62.09" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1849,10 +1893,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1869,38 +1947,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1930,10 +1976,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -1950,38 +2030,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2011,10 +2059,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2031,38 +2113,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2101,10 +2151,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="75.91" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="62.09" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="75.91" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2121,38 +2205,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="75.91" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="62.09" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2182,10 +2234,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2202,38 +2288,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2263,10 +2317,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2283,38 +2371,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2344,10 +2400,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2364,38 +2454,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2434,10 +2492,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="75.91" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="62.09" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="75.91" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2454,38 +2546,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="75.91" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="62.09" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2515,10 +2575,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2535,38 +2629,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2596,10 +2658,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2616,38 +2712,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2677,10 +2741,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2697,38 +2795,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2758,10 +2824,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2778,38 +2878,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2839,10 +2907,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2859,38 +2961,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2920,10 +2990,44 @@
           <tied type="start"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <tie type="start"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          <tied type="start"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2940,38 +3044,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <tie type="start"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          <tied type="start"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -2999,10 +3071,40 @@
           <tied type="stop"/>
           </notations>
         </note>
+      <note default-x="30.32" default-y="-50.00">
+        <chord/>
+        <pitch>
+          <step>C</step>
+          <alter>1</alter>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          </notations>
+        </note>
+      <note default-x="16.50" default-y="-45.00">
+        <chord/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+          </pitch>
+        <duration>4</duration>
+        <tie type="stop"/>
+        <voice>1</voice>
+        <type>whole</type>
+        <notations>
+          <tied type="stop"/>
+          </notations>
+        </note>
       <note default-x="30.32" default-y="-45.00">
         <chord/>
         <pitch>
           <step>D</step>
+          <alter>1</alter>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>
@@ -3017,34 +3119,6 @@
         <chord/>
         <pitch>
           <step>E</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          </notations>
-        </note>
-      <note default-x="30.32" default-y="-35.00">
-        <chord/>
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-          </pitch>
-        <duration>4</duration>
-        <tie type="stop"/>
-        <voice>1</voice>
-        <type>whole</type>
-        <notations>
-          <tied type="stop"/>
-          </notations>
-        </note>
-      <note default-x="16.50" default-y="-30.00">
-        <chord/>
-        <pitch>
-          <step>G</step>
           <octave>4</octave>
           </pitch>
         <duration>4</duration>

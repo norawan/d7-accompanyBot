@@ -3,8 +3,10 @@ from constants import *
 from unzip import *
 import subprocess
 from os import path
+import os
 from pdf2image import convert_from_path
 from PIL import Image
+from time import sleep
 
 def mouseInButton(button : pygame.Rect, mouseX, mouseY):
     return mouseX >= button.left and mouseX <= button.right \
@@ -52,28 +54,65 @@ def pullVerticalTriangleCoordinates(coordinate : tuple, pullDistance):
     x3 = x1 + halfPullDistance
     return ((x1, y1), (x2, y2), (x3, y3))
 
+def addMeasureForSend(toSend, curMeasure):
+    toSend[MEASURE_COMMAND] = "C" + str(curMeasure) + "\n"
+
 def swapCoords(coordinates : tuple):
     L = []
     for (x, y) in coordinates:
         L.append((y, x))
     return tuple(L)
 
-def processMusic(fileString, outputString):
+# handle with care
+def deleteProcessedOutput(subdirectory : str):
+    windowsLocation = AUDIVERIS_OUTPUT_LOCATION #"C:/Users/khand/OneDrive/Documents/GitHub/d7-accompanyBot/Outputs"
+    if len(subdirectory) < 1:
+        print("Error: Erroneous deletion attempted with subdirectory: " + subdirectory)
+    else:
+        deleteScript = "C:/Users/khand/OneDrive/Documents/GitHub/d7-accompanyBot/Scripts/deleteFolder.ps1"
+        rmFolderFlag = "-rmFolder"
+        fullLocation = f'{windowsLocation}/{subdirectory}'
+        subprocess.Popen(["powershell.exe", deleteScript, rmFolderFlag, fullLocation])
+        return
+        
+        print("this is it: " + fullLocation)
+        os.system(f'{DELETE_CMD} {fullLocation} {FORCE_FLAG} {RECURSE_FLAG}')
+
+def processMusic(fileString, outputString, extraThreadAlert):
     pathToAudiShell = "C:/Users/khand/OneDrive/Documents/GitHub/d7-accompanyBot/Scripts/runAudiveris.ps1"
     musicxmlCache = "C:/Users/khand/OneDrive/Documents/GitHub/d7-accompanyBot/CachedMusicXML"
     argStringName = "-argString"
     outputStringName = "-outputString"
 
+    abstractFile = clearpath(fileString).replace(".pdf", "").replace(".png", "").replace(".jpg", "") # better ways to do this
+    returnFile = f'{musicxmlCache}/{abstractFile}.xml'
+    if path.exists(returnFile):
+        extraThreadAlert[CURRENT_XML] = f'{abstractFile}.xml'
+        extraThreadAlert[CACHE_REQUEST] = True
+
+        while extraThreadAlert[CACHE_REQUEST] == True: # spin cycle for user input
+            sleep(KILL_TIMER)
+            if KILL_COMMAND in extraThreadAlert and extraThreadAlert[KILL_COMMAND] == True:
+                return
+        
+        if extraThreadAlert[CACHE_REQUEST] == EXISTING_FILE:
+            return returnFile
+
     print("Reading sheet music...")
     readProc = subprocess.Popen(["powershell.exe", pathToAudiShell, argStringName, fileString, outputStringName, outputString], stderr=subprocess.PIPE)
-    readProc.wait()
+    #readProc = subprocess.Popen(['Start-Process "C:\\Program Files\\Audiveris\\bin\\Audiveris"', f"\"-export -batch {fileString} -output {outputString}\""])
+    while readProc.poll() is None:
+        sleep(KILL_TIMER)
+        if KILL_COMMAND in extraThreadAlert and extraThreadAlert[KILL_COMMAND] == True:
+            readProc.kill()
+            return
 
-    print("Unzipping binaries...")
-    abstractFile = clearpath(fileString).replace(".pdf", "").replace(".png", "").replace(".jpg", "") # better ways to do this
     newPath = outputString + f"/{abstractFile}/{abstractFile}.mxl"
     if path.exists(newPath):
+        print("Unzipping binaries...")
         unzip(newPath, musicxmlCache)
-        return f'{musicxmlCache}/{abstractFile}.xml'
+        deleteProcessedOutput(abstractFile) # remove zipped version
+        return returnFile
     else:
         return None # Audiveris failed to process
     
@@ -127,7 +166,17 @@ def increaseTempo(tempo, threshold=200):
     if tempo >= threshold:
         return threshold
     else:
-        return tempo + 1
+        return tempo + 1    
+
+'''def createWaiting():
+    waitingDict = dict()
+    waitingDict["start"] = False
+    waitingDict["pause"] = False
+    waitingDict["measure"] = False
+    waitingDict["tempo"] = False
+    waitingDict["file"] = False
+    waitingDict["kill"] = False
+    return waitingDict'''
     
 def decreaseTempo(tempo):
     if tempo <= 1:
@@ -229,7 +278,7 @@ def createObjects(appScreen : pygame.Surface, device="None", orbPos=(ORBX, ORBY)
     measureNumRect.centery = measureRect.centery
     measureNumRect.left = measureRect.right + (METRIC_WIDTH_OFFSET * appScreen.get_width() // FIGMA_SCREEN_WIDTH)
 
-    selectPlayerText = buttonFont.render("Select Player Device", True, WHITE, SKY_BLUE)
+    selectPlayerText = buttonFont.render("Connect to Player Device", True, WHITE, SKY_BLUE)
     selectTextRect = selectPlayerText.get_rect()
     selectTextRect.center = buttonRect2.center
 
@@ -295,6 +344,25 @@ def createObjects(appScreen : pygame.Surface, device="None", orbPos=(ORBX, ORBY)
     measureOrbX = orbPos[0] * appScreen.get_width() // FIGMA_SCREEN_WIDTH
     measureOrbY = orbPos[1] * appScreen.get_height() // FIGMA_SCREEN_HEIGHT
 
+    leftGreen = appScreen.get_width() * GREEN_BUTTON_X // FIGMA_SCREEN_WIDTH
+    greenButtonTop = appScreen.get_height() * GREEN_BUTTON_Y // FIGMA_SCREEN_HEIGHT
+    greenButtonWidth = appScreen.get_width() * GREEN_BUTTON_WIDTH // FIGMA_SCREEN_WIDTH
+    greenButtonHeight = appScreen.get_height() * GREEN_BUTTON_HEIGHT // FIGMA_SCREEN_HEIGHT
+    greenRect = pygame.Rect(leftGreen, greenButtonTop, greenButtonWidth, greenButtonHeight)
+
+    leftOrange = appScreen.get_width() * ORANGE_BUTTON_X // FIGMA_SCREEN_WIDTH
+    orangeButtonTop = appScreen.get_height() * ORANGE_BUTTON_Y // FIGMA_SCREEN_HEIGHT
+    orangeButtonWidth = appScreen.get_width() * ORANGE_BUTTON_WIDTH // FIGMA_SCREEN_WIDTH
+    orangeButtonHeight = appScreen.get_height() * ORANGE_BUTTON_HEIGHT // FIGMA_SCREEN_HEIGHT
+    orangeRect = pygame.Rect(leftOrange, orangeButtonTop, orangeButtonWidth, orangeButtonHeight)
+
+    greenButtonText = buttonFont.render("Use Existing File", True, WHITE, GREEN_BUTTON_COLOR)
+    greenTextRect = greenButtonText.get_rect()
+    greenTextRect.center = greenRect.center
+
+    orangeButtonText = buttonFont.render("Reprocess Music", True, WHITE, ORANGE_BUTTON_COLOR)
+    orangeTextRect = orangeButtonText.get_rect()
+    orangeTextRect.center = orangeRect.center
 
     objects.append(buttonRect1) # 0
     objects.append(buttonRect2) # 1
@@ -318,6 +386,10 @@ def createObjects(appScreen : pygame.Surface, device="None", orbPos=(ORBX, ORBY)
     objects.append(pauseRightBarRect) # 19
     objects.append((measureText, measureRect)) # 20
     objects.append((measureNumText, measureNumRect)) # 21
+    objects.append(greenRect) # 22
+    objects.append(orangeRect) # 23
+    objects.append((greenButtonText, greenTextRect)) # 24
+    objects.append((orangeButtonText, orangeTextRect)) # 25
     return objects
 
 def createColors():
@@ -341,8 +413,12 @@ def createColors():
     colors.append(DARK_GRAY)
     colors.append(DARK_GRAY)
     colors.append(None)
+    colors.append(GRAY) 
     colors.append(GRAY)
-    colors.append(GRAY)
+    colors.append(None)
+    colors.append(None)
+    colors.append(GREEN_BUTTON_COLOR)
+    colors.append(ORANGE_BUTTON_COLOR)
     colors.append(None)
     colors.append(None)
     return colors
@@ -380,6 +456,10 @@ def createRadii(appScreen : pygame.Surface):
     radii.append(blueButtonRadius)
     radii.append(None)
     radii.append(None)
+    radii.append(blueButtonRadius)
+    radii.append(blueButtonRadius)
+    radii.append(None)
+    radii.append(None)
     return radii
 
 def drawObjects(screen : pygame.Surface, objects : list, colors : list[pygame.Color], radii : list[int], showing : list[bool]):
@@ -407,10 +487,10 @@ def drawObjects(screen : pygame.Surface, objects : list, colors : list[pygame.Co
             print(f"Drawing Error. Type found: {type(item)}")
     return
 
-def drawMusic(screen : pygame.Surface, musicPages : list[Image.Image]):
+def drawMusic(screen : pygame.Surface, musicPages : list[Image.Image], drawFlag):
     if musicPages == []:
         return
-    else: # for now just draw first page
+    elif drawFlag: # for now just draw first page
         showingPage = musicPages[0]
         sRatio = showingPage.height / showingPage.width
         maxRatio = MAX_MUSIC_HEIGHT / MAX_MUSIC_WIDTH
@@ -434,8 +514,113 @@ def drawMusic(screen : pygame.Surface, musicPages : list[Image.Image]):
         musicRect.center = (musicCenterX, musicCenterY)
         screen.blit(musicShowing, musicRect)
 
+def drawDisplaySetup(screen : pygame.Surface, text : str):
+    fixFactorW = FIX_FACTOR * screen.get_width() // FIGMA_SCREEN_WIDTH
+    fixFactorH = FIX_FACTOR * screen.get_height() // FIGMA_SCREEN_HEIGHT
+    left = screen.get_width() // 4 + fixFactorW / 2
+    top = screen.get_height() // 4 + fixFactorH / 2
+    width = 2 * (left - fixFactorW)
+    height = 2 * (top - fixFactorH)
+    radius = screen.get_height() * BLUE_RADIUS // FIGMA_SCREEN_HEIGHT
+    bodyRect = pygame.Rect(left, top, width, height)
+
+    dialogColor = GRAY
+    pygame.draw.rect(screen, dialogColor, bodyRect, border_radius=radius)
+
+    textWidth = width // 4
+    textHeight = height // 4
+    leftTextBox = (left + (width // 2)) - (textWidth // 2)
+    topTextBox = ((top + height) // 2) + (textHeight // 2)
+    
+    
+    textRect = pygame.Rect(leftTextBox, topTextBox, textWidth, textHeight)
+    largeFontSize = LARGE_FONT_FACTOR * screen.get_width() // FIGMA_SCREEN_WIDTH
+    metricFont = pygame.font.SysFont("arial", largeFontSize, bold=False)
+    textRender = metricFont.render(text, True, BLACK, dialogColor)
+    realTextRect = textRender.get_rect()
+    realTextRect.center = textRect.center
+    screen.blit(textRender, realTextRect)
+
+    
+
+
+    '''fontSize = REGULAR_FONT_FACTOR * screen.get_width() // FIGMA_SCREEN_WIDTH
+    buttonFont = pygame.font.SysFont("arial", fontSize, bold=False)
+    imageAlertText = buttonFont.render(text, True, WHITE, SKY_BLUE)
+    imageRectangle = screen.get_rect()
+    screen.blit(imageAlertText, imageRectangle)'''
+
+# wrap text function adapted from https://stackoverflow.com/questions/49432109/how-to-wrap-text-in-pygame-using-pygame-font-font
+def wrapText(text, font, colour, x, y, screen, allowed_width, y_offset):
+    # first, split the text into words
+    words = text.split()
+
+    # now, construct lines out of these words
+    lines = []
+    while len(words) > 0:
+        # get as many words as will fit within allowed_width
+        line_words = []
+        while len(words) > 0:
+            line_words.append(words.pop(0))
+            fw, fh = font.size(' '.join(line_words + words[:1]))
+            if fw > allowed_width:
+                break
+
+        # add a line consisting of those words
+        line = ' '.join(line_words)
+        lines.append(line)
+
+    # now we've split our text into lines that fit into the width, actually
+    # render them
+
+    # we'll render each line below the last, so we need to keep track of
+    # the culmative height of the lines we've rendered so far
+    ty = y
+    for line in lines:
+        fw, fh = font.size(line)
+
+        # (tx, ty) is the top-left of the font surface
+        tx = x - fw / 2
+
+        font_surface = font.render(line, True, colour)
+        screen.blit(font_surface, (tx, ty))
+        ty = ty + y_offset
+
+def drawCacheMessage(extraThreadAlert, screen : pygame.Surface, showing):
+    if CACHE_REQUEST in extraThreadAlert and extraThreadAlert[CACHE_REQUEST] == True:
+        cacheFontSize = CACHE_TEXT_FONT * screen.get_width() // FIGMA_SCREEN_WIDTH
+        cacheFont = pygame.font.SysFont("arial", cacheFontSize, bold=False)
+        fcx = BLOCK_TEXT_X + (BLOCK_TEXT_WIDTH // 2)
+        fcy = BLOCK_TEXT_Y
+        cx = fcx * screen.get_width() // FIGMA_SCREEN_WIDTH
+        cy = fcy * screen.get_height() // FIGMA_SCREEN_HEIGHT
+        maxWidth = BLOCK_TEXT_WIDTH * screen.get_width() // FIGMA_SCREEN_WIDTH
+
+        blockRectLeft = BLOCK_MESSAGE_X * screen.get_width() // FIGMA_SCREEN_WIDTH
+        blockRectTop = BLOCK_MESSAGE_Y * screen.get_height() // FIGMA_SCREEN_HEIGHT
+        blockRectWidth = BLOCK_MESSAGE_WIDTH * screen.get_width() // FIGMA_SCREEN_WIDTH
+        blockRectHeight = BLOCK_MESSAGE_HEIGHT * screen.get_height() // FIGMA_SCREEN_HEIGHT
+        cacheBlockRect = pygame.Rect(blockRectLeft, blockRectTop, blockRectWidth, blockRectHeight)
+        blockBorder = BLOCK_RADIUS * screen.get_width() // FIGMA_SCREEN_WIDTH
+        pygame.draw.rect(screen, BLOCK_MESSAGE_COLOR, cacheBlockRect, border_radius=blockBorder)
+        wrapText(extraThreadAlert[CURRENT_XML] + PARTIAL_EXIST_STR, cacheFont, CACHE_TEXT_COLOR, cx, cy, screen, maxWidth, cacheFontSize)
+
+        showing[22] = True
+        showing[23] = True
+        showing[24] = True
+        showing[25] = True
+    else:
+        showing[22] = False
+        showing[23] = False
+        showing[24] = False
+        showing[25] = False
+
 def createShowParams(L):
     showing = [True] * len(L)
     showing[18] = False
     showing[19] = False
+    showing[22] = False
+    showing[23] = False
+    showing[24] = False
+    showing[25] = False
     return showing

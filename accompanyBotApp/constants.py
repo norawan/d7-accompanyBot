@@ -58,10 +58,77 @@ INPUT_BUFFER=100000000
 METRICS_HEIGHT_OFFSET=60
 METRIC_WIDTH_OFFSET=40
 POPPLER_PATH="C:/Users/khand/OneDrive/Documents/GitHub/d7-accompanyBot/poppler-23.01.0/Library/bin"
+MIDI_STRING="CachedMusicXML/digital.midi"
 MAX_MUSIC_WIDTH=735
 MAX_MUSIC_HEIGHT=800
 MUSIC_CENTER_X=1110
 MUSIC_CENTER_Y=450
+ARDUINO_PORT="Arduino MKRZERO"
+ARDUINO_PORT_ALT="Arduino Uno"
+BAD_PORT="bootloader"
+COMM_TIMEOUT=0.2
+KILL_TIMER=0.1
+RPI_SCP_ADDR="team-d7@172.26.171.141"
+RPI_MUSIC_DIR="~/d7-accompanyBot/XMLFiles/"
+DEFAULT_BAUD=115200
+DISP_TEXT = "Place AccompanyBot at octave "
+FIX_FACTOR = 120
+CACHE_REQUEST="cacherequest"
+EXISTING_FILE="existing"
+REPROCESS_FILE="reprocess"
+PARTIAL_EXIST_STR=" already exists. Use this file or reprocess sheet music? (Reprocessing could take a while...)"
+CURRENT_XML="currentxml"
+DELETE_CMD="Remove-Item"
+FORCE_FLAG="-Force"
+RECURSE_FLAG="-Recurse"
+
+
+### XML Fixes ###
+PART_VOICE="<part-name>Voice</part-name>"
+PART_PIANO="<part-name>Piano</part-name>"
+INSTRUMENT_VOICE="<instrument-name>Voice Oohs</instrument-name>"
+INSTRUMENT_PIANO="<instrument-name>Acoustic Grand Piano</instrument-name>"
+MIDI_PROGRAM_VOICE="<midi-program>54</midi-program>"
+MIDI_PROGRAM_PIANO="<midi-program>1</midi-program>"
+
+### transmission commands ###
+PAUSE_COMMAND="P\n"
+PLAY_COMMAND="S\n"
+MEASURE_COMMAND="measure"
+TEMPO_COMMAND="tempo"
+KILL_COMMAND="kill"
+COUNT_COMMAND="number"
+OCTAVE_COMMAND="octave"
+SEND_FILE="file"
+LATENCY_TEST="latency"
+
+# display cache message
+BLOCK_MESSAGE_X=792
+BLOCK_MESSAGE_Y=108
+BLOCK_MESSAGE_WIDTH=636
+BLOCK_MESSAGE_HEIGHT=317
+BLOCK_MESSAGE_COLOR=(0xBB, 0xA0, 0xBD)
+BLOCK_RADIUS=5
+
+BLOCK_TEXT_X=888
+BLOCK_TEXT_Y=137
+BLOCK_TEXT_WIDTH=472
+BLOCK_TEXT_HEIGHT=120
+CACHE_TEXT_FONT=24
+CACHE_TEXT_COLOR=(0x0D, 0x36, 0x86)
+
+GREEN_BUTTON_X=845
+GREEN_BUTTON_Y=283
+GREEN_BUTTON_WIDTH=223
+GREEN_BUTTON_HEIGHT=113
+GREEN_BUTTON_COLOR=(0x61, 0xC2, 0x76)
+
+ORANGE_BUTTON_X=1150
+ORANGE_BUTTON_Y=283
+ORANGE_BUTTON_WIDTH=223
+ORANGE_BUTTON_HEIGHT=113
+ORANGE_BUTTON_COLOR=(0xD3, 0x82, 0x24)
+
 
 FIGMA_SCREEN_WIDTH=1626
 FIGMA_SCREEN_HEIGHT=1170

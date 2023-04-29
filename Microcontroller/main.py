@@ -7,7 +7,7 @@ import time
 import sys
 import serial
 
-DEBUG = False
+DEBUG = True
 RPI_CONNECTED = True
 RPI_SER_PORT = '/dev/serial0'
 DEFAULT_BAUD = 115200
@@ -24,10 +24,12 @@ def playNotes(setOfNotes, currentOctave):
     
     Args: currentMeasure (int): The time step to retreive notes for
     """
+    print(setOfNotes)
     for note in setOfNotes:
         pitch = note.pitch
         octave = note.octave
         state = note.state
+        print(pitch)
         
         pin = noteToPinDict.get(pitch, "NO PIN")
         if (pin == "NO PIN"):
@@ -50,6 +52,7 @@ def playNotes(setOfNotes, currentOctave):
     
 def stopPlaying():
     if (RPI_CONNECTED): pi.clear_bank_1(POSSIBLE_PINS)
+    print(bin(pi.read_bank_1() & POSSIBLE_PINS))
 
 def getMeasureFromTime():
     currentTime = time.time_ns()
@@ -93,18 +96,19 @@ currentlyPlaying = set()
 offsetList = []
 paused = True
 fileLoaded = False
+measureDuration_ns = 0
 
 # Run scheduling
-(tempoInfo, totalMeasures, scheduledPiece, currentOctave) = schedule("/home/team-d7/d7-accompanyBot/XMLFiles/Take_Five.xml", scheduledPiece)
-if (tempoInfo.tempoValue > tempoInfo.maxTempo):
-    print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
-    tempoInfo.tempoValue = tempoInfo.maxTempo
-fileLoaded = True
+#(tempoInfo, totalMeasures, scheduledPiece, currentOctave) = schedule("/home/team-d7/d7-accompanyBot/Microcontroller/MetronomeTest60bpm.xml", scheduledPiece)
+#if (tempoInfo.tempoValue > tempoInfo.maxTempo):
+#    print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
+#    tempoInfo.tempoValue = tempoInfo.maxTempo
+#fileLoaded = True
 
-# measureDuration_ns = tempoInfo.getMeasureDuration_ns()
-if (DEBUG): print(scheduledPiece)
+#measureDuration_ns = tempoInfo.getMeasureDuration_ns()
+#if (DEBUG): print(scheduledPiece)
 
-# startTime = time.time_ns()
+#startTime = time.time_ns()
 
 # Golden Loop
 while(True):
@@ -121,8 +125,9 @@ while(True):
                 justStarted = True
                 startMeasure = currentMeasure
                 startTime = time.time_ns()
-
-                ser.write("L000\n".encode())
+                
+                print("received start")
+                ser.write("L111\n".encode())
 
         # Pause   
         elif (command == "P"):
@@ -131,7 +136,8 @@ while(True):
                 stopPlaying()
                 paused = True
             
-            ser.write("L000\n".encode())
+            ser.write("L111\n".encode())
+            print("received pause")
         
         # Change the current measure
         elif (command[0] == "C" and len(command) > 1):

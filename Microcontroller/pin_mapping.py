@@ -13,8 +13,6 @@ PIN8 = 5
 PIN9 = 6
 PIN10 = 13
 PIN11 = 12
-PIN12 = 16
-PIN13 = 26
 
 NUM_PINS = 14
 
@@ -31,9 +29,8 @@ PIN8_MASK = 1 << PIN8
 PIN9_MASK = 1 << PIN9
 PIN10_MASK = 1 << PIN10
 PIN11_MASK = 1 << PIN11
-PIN12_MASK = 1 << PIN12
 
-POSSIBLE_PINS = PIN0_MASK | PIN1_MASK | PIN2_MASK | PIN3_MASK | PIN4_MASK | PIN5_MASK | PIN6_MASK | PIN7_MASK | PIN8_MASK | PIN9_MASK | PIN10_MASK | PIN11_MASK | PIN12_MASK
+POSSIBLE_PINS = PIN0_MASK | PIN1_MASK | PIN2_MASK | PIN3_MASK | PIN4_MASK | PIN5_MASK | PIN6_MASK | PIN7_MASK | PIN8_MASK | PIN9_MASK | PIN10_MASK | PIN11_MASK
 
 # Assign Pin Masks to Pins --> Static
 pinToPinMaskDict = {
@@ -48,8 +45,7 @@ pinToPinMaskDict = {
     PIN8 : PIN8_MASK,
     PIN9 : PIN9_MASK,
     PIN10 : PIN10_MASK,
-    PIN11 : PIN11_MASK,
-    PIN12 : PIN12_MASK
+    PIN11 : PIN11_MASK
 }
 
 # Notes to Pin mapping --> Dynamic
@@ -63,17 +59,17 @@ noteToPinDict = {
     "E-" : PIN3,
     "E" : PIN4,
     # space between E/F is not mapped
-    "F" : PIN6,
-    "F#" : PIN7,
-    "G-" : PIN7,
-    "G" : PIN8,
-    "G#" : PIN9,
-    "A-" : PIN9,
-    "A" : PIN10,
-    "A#" : PIN11,
-    "B-" : PIN11,
-    "B" : PIN12,
-    "C-" : PIN12
+    "F" : PIN5,
+    "F#" : PIN6,
+    "G-" : PIN6,
+    "G" : PIN7,
+    "G#" : PIN8,
+    "A-" : PIN8,
+    "A" : PIN9,
+    "A#" : PIN10,
+    "B-" : PIN10,
+    "B" : PIN11,
+    "C-" : PIN11
     # space between B/C is not mapped
 }
 
@@ -87,17 +83,17 @@ noteToPinIndex = {
     "E-" : 3,
     "E" : 4,
     # space between E/F is not mapped
-    "F" : 6,
-    "F#" : 7,
-    "G-" : 7,
-    "G" : 8,
-    "G#" : 9,
-    "A-" : 9,
-    "A" : 10,
-    "A#" : 11,
-    "B-" : 11,
-    "B" : 12,
-    "C-" : 12
+    "F" : 5,
+    "F#" : 6,
+    "G-" : 6,
+    "G" : 7,
+    "G#" : 8,
+    "A-" : 8,
+    "A" : 9,
+    "A#" : 10,
+    "B-" : 10,
+    "B" : 11,
+    "C-" : 11
     # space between B/C is not mapped
 }
 

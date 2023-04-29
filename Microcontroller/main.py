@@ -7,6 +7,7 @@ import time
 import sys
 import serial
 
+# Macros
 DEBUG = True
 RPI_CONNECTED = True
 RPI_SER_PORT = '/dev/serial0'
@@ -112,124 +113,133 @@ measureDuration_ns = 0
 
 # Golden Loop
 while(True):
-    command = checkSerialInput()
-    if (command != None):
-        # Set Parameters based on received command
+    # try and except to catch errors 
+    try:
+        command = checkSerialInput()
+        if (command != None):
+            # Set Parameters based on received command
 
-        # Play 
-        if (command == "S"):
-            if (DEBUG): print("Start Playing")
-            
-            if (paused and fileLoaded):
-                paused = False
-                justStarted = True
-                startMeasure = currentMeasure
-                startTime = time.time_ns()
+            # Play 
+            if (command == "S"):
+                if (DEBUG): print("Start Playing")
                 
-                print("received start")
+                if (paused and fileLoaded):
+                    paused = False
+                    justStarted = True
+                    startMeasure = currentMeasure
+                    startTime = time.time_ns()
+                    
+                    print("received start")
+                    ser.write("L111\n".encode())
+
+            # Pause   
+            elif (command == "P"):
+                if (fileLoaded):
+                    if (DEBUG): print("Pause Playing")
+                    stopPlaying()
+                    paused = True
+                
                 ser.write("L111\n".encode())
-
-        # Pause   
-        elif (command == "P"):
-            if (fileLoaded):
-                if (DEBUG): print("Pause Playing")
-                stopPlaying()
-                paused = True
+                print("received pause")
             
-            ser.write("L111\n".encode())
-            print("received pause")
-        
-        # Change the current measure
-        elif (command[0] == "C" and len(command) > 1):
-            if (fileLoaded):
-                measure = command[1:] # Removes the first character
-                
-                if (DEBUG): print("Parsed measure: " + measure)
-                
-                startMeasure = int(measure)
-                currentMeasure = startMeasure
-                justStarted = True
-                startTime = time.time_ns()
+            # Change the current measure
+            elif (command[0] == "C" and len(command) > 1):
+                if (fileLoaded):
+                    measure = command[1:] # Removes the first character
+                    
+                    if (DEBUG): print("Parsed measure: " + measure)
+                    
+                    startMeasure = int(measure)
+                    currentMeasure = startMeasure
+                    justStarted = True
+                    startTime = time.time_ns()
 
-        # New Tempo Received
-        elif (command[0] == "T" and len(command) > 1):
-            if (fileLoaded):
-                newTempo = int(command[1:]) # Removes the first character
+            # New Tempo Received
+            elif (command[0] == "T" and len(command) > 1):
+                if (fileLoaded):
+                    newTempo = int(command[1:]) # Removes the first character
 
-                if (DEBUG): print("New Tempo: " + str(newTempo))
+                    if (DEBUG): print("New Tempo: " + str(newTempo))
 
-                if (newTempo > tempoInfo.maxTempo):
-                    print(f"ERROR: Input tempo of {newTempo} too high. Using max tempo of {tempoInfo.maxTempo} instead")
-                tempoInfo.tempoValue = min(tempoInfo.maxTempo, newTempo)
+                    if (newTempo > tempoInfo.maxTempo):
+                        print(f"ERROR: Input tempo of {newTempo} too high. Using max tempo of {tempoInfo.maxTempo} instead")
+                    tempoInfo.tempoValue = min(tempoInfo.maxTempo, newTempo)
 
-                # Recalculate measure duration and set time variables
-                measureDuration_ns = tempoInfo.getMeasureDuration_ns()
-                startMeasure = currentMeasure
-                startTime = time.time_ns()
+                    # Recalculate measure duration and set time variables
+                    measureDuration_ns = tempoInfo.getMeasureDuration_ns()
+                    startMeasure = currentMeasure
+                    startTime = time.time_ns()
 
-        # File received
-        elif (command[0] == "F"  and len(command) > 1): 
-            file = command[1:] # Removes the first character
-            
-            filepath = XML_FILES_PATH + file
-            
-            print(filepath)
-            
-            # Check that file exists
-            try: 
-                open(filepath) # To catch the exception for if the file doesn't exist
-                fileLoaded = True
-                (tempoInfo, totalMeasures, newScheduledPiece, currentOctave) = schedule(filepath, scheduledPiece)
+            # File received
+            elif (command[0] == "F"  and len(command) > 1): 
+                file = command[1:] # Removes the first character
                 
-                # Check that tempo is not too high
-                print("Max Tempo: " + str(tempoInfo.maxTempo))
-                if (tempoInfo.tempoValue > tempoInfo.maxTempo):
-                    print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
-                    tempoInfo.tempoValue = tempoInfo.maxTempo
+                filepath = XML_FILES_PATH + file
                 
-                ser.write(("N" + str(totalMeasures) + "\n").encode())
-                ser.write(("M" + str(tempoInfo.maxTempo) + "\n").encode())
-                ser.write(("O" + str(currentOctave) + "\n").encode())
-                ser.write(("C0\n").encode())
+                print(filepath)
                 
-                scheduledPiece = newScheduledPiece
-                measureDuration_ns = tempoInfo.getMeasureDuration_ns()
+                # Check that file exists
+                try: 
+                    open(filepath) # To catch the exception for if the file doesn't exist
+                    fileLoaded = True
+                    (tempoInfo, totalMeasures, newScheduledPiece, currentOctave) = schedule(filepath, scheduledPiece)
+                    
+                    # Check that tempo is not too high
+                    print("Max Tempo: " + str(tempoInfo.maxTempo))
+                    if (tempoInfo.tempoValue > tempoInfo.maxTempo):
+                        print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
+                        tempoInfo.tempoValue = tempoInfo.maxTempo
+                    
+                    ser.write(("N" + str(totalMeasures) + "\n").encode())
+                    ser.write(("M" + str(tempoInfo.maxTempo) + "\n").encode())
+                    ser.write(("O" + str(currentOctave) + "\n").encode())
+                    ser.write(("C0\n").encode())
+                    
+                    scheduledPiece = newScheduledPiece
+                    measureDuration_ns = tempoInfo.getMeasureDuration_ns()
 
-                # Initialize variables for the new song
-                startMeasure = 1
-                currentMeasure = 1
-                currentOffset = 0
-                notesToPlay = {}
-                currentlyPlaying = set()
-                offsetList = []
-                paused = True
-            except: 
-                print("ERROR: File not found")
-    else:
-        if (not paused and currentMeasure <= totalMeasures):
-            newMeasure = getMeasureFromTime()
-            if (justStarted or newMeasure > currentMeasure):
-                if (DEBUG): print("Measure: {}".format(newMeasure))
-                
-                justStarted = 0
-                currentMeasure = newMeasure
-                notesToPlay = scheduledPiece.get(currentMeasure, "none")
-                if (notesToPlay != "none"):
-                    offsetList = list(notesToPlay.keys())
-                    offsetList.sort()
-                
-                # Send new measure number over serial port to computer
-                writeData = "C" + str(currentMeasure) + "\n"
-                if (RPI_CONNECTED): ser.write(writeData.encode())
-            
-            newOffset = getCurrentOffset()
-            # print("offset" + str(newOffset))
-            if (len(offsetList) > 0 and newOffset > offsetList[0]):
-                # print(offsetList[0])
-                if (notesToPlay != "none"):
-                    notesAtOffset = notesToPlay.get(offsetList[0], "none")
-                if (notesAtOffset != "none"):
-                    playNotes(notesAtOffset, currentOctave)
-                offsetList = offsetList[1:]
+                    # Initialize variables for the new song
+                    startMeasure = 1
+                    currentMeasure = 1
+                    currentOffset = 0
+                    notesToPlay = {}
+                    currentlyPlaying = set()
+                    offsetList = []
+                    paused = True
+                except: 
+                    print("ERROR: File not found")
         else:
-            pass
+            if (not paused and currentMeasure <= totalMeasures):
+                newMeasure = getMeasureFromTime()
+                if (justStarted or newMeasure > currentMeasure):
+                    if (DEBUG): print("Measure: {}".format(newMeasure))
+                    
+                    justStarted = 0
+                    currentMeasure = newMeasure
+                    notesToPlay = scheduledPiece.get(currentMeasure, "none")
+                    if (notesToPlay != "none"):
+                        offsetList = list(notesToPlay.keys())
+                        offsetList.sort()
+                    
+                    # Send new measure number over serial port to computer
+                    writeData = "C" + str(currentMeasure) + "\n"
+                    if (RPI_CONNECTED): ser.write(writeData.encode())
+                
+                newOffset = getCurrentOffset()
+                # print("offset" + str(newOffset))
+                if (len(offsetList) > 0 and newOffset > offsetList[0]):
+                    # print(offsetList[0])
+                    if (notesToPlay != "none"):
+                        notesAtOffset = notesToPlay.get(offsetList[0], "none")
+                    if (notesAtOffset != "none"):
+                        playNotes(notesAtOffset, currentOctave)
+                    offsetList = offsetList[1:]
+            else:
+                pass
+    except:
+        pass
+    else:
+        break
+
+# Should never reach here
+print("Program terminated")

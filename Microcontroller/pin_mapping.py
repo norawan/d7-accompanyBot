@@ -14,7 +14,7 @@ PIN9 = 6
 PIN10 = 13
 PIN11 = 12
 
-NUM_PINS = 14
+NUM_PINS = 12
 
 # Corresponding bit masks --> Static
 PIN0_MASK = 1 << PIN0

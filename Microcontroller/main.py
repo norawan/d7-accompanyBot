@@ -79,9 +79,9 @@ def checkSerialInput():
         return command[:-1] # Remove new line character
 
 # Set up hardware
-if (RPI_CONNECTED): ser = serial.Serial(RPI_SER_PORT, DEFAULT_BAUD, timeout=MAX_LATENCY)
+ser = serial.Serial(RPI_SER_PORT, DEFAULT_BAUD, timeout=MAX_LATENCY)
 
-if (RPI_CONNECTED): pi = setUpPins()
+pi = setUpPins()
 
 # Initializing variables
 scheduledPiece = dict()
@@ -109,16 +109,20 @@ measureDuration_ns = 0
 #measureDuration_ns = tempoInfo.getMeasureDuration_ns()
 #if (DEBUG): print(scheduledPiece)
 
-#startTime = time.time_ns()
-
+lightCounter = 0
 # Golden Loop
 while(True):
     # try and except to catch errors 
     try:
+        state = lightCounter % 2
+        pi.write(PIN0, state)
+        lightCounter += 1
+        time.sleep(0.5)
+
         command = checkSerialInput()
         if (command != None):
             # Set Parameters based on received command
-
+            
             # Play 
             if (command == "S"):
                 if (DEBUG): print("Start Playing")
@@ -238,8 +242,6 @@ while(True):
                 pass
     except:
         pass
-    else:
-        break
 
 # Should never reach here
 print("Program terminated")

@@ -61,7 +61,9 @@ def addNoteToValue(thisNote, offset, value, measureDuration):
     
     return duration
 
-def schedule(xmlFile, scheduledPiece):
+def schedule(xmlFile):
+    scheduledPiece = dict()
+    
     s = converter.parseFile(xmlFile)
     # s.show('text')
 

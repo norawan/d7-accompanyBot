@@ -4,7 +4,6 @@ from xml_parse import *
 from pin_mapping import *
 
 import time
-import os
 import serial
 
 # Macros
@@ -102,14 +101,6 @@ fileLoaded = False
 measureDuration_ns = 0
 
 # Run scheduling
-#(tempoInfo, totalMeasures, scheduledPiece, currentOctave) = schedule("/home/pi/d7-accompanyBot/XMLFiles/ChromaticCscale.xml", scheduledPiece)
-#if (tempoInfo.tempoValue > tempoInfo.maxTempo):
-#    print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
-#    tempoInfo.tempoValue = tempoInfo.maxTempo
-#fileLoaded = True
-
-#measureDuration_ns = tempoInfo.getMeasureDuration_ns()
-#if (DEBUG): print(scheduledPiece)
 
 print("Starting loop")
 
@@ -183,7 +174,7 @@ while(True):
                     open(filepath) # To catch the exception for if the file doesn't exist
                     fileLoaded = True
                     newScheduledPiece = dict()
-                    (tempoInfo, totalMeasures, newScheduledPiece, currentOctave) = schedule(filepath, scheduledPiece)
+                    (tempoInfo, totalMeasures, newScheduledPiece, currentOctave) = schedule(filepath)
 
                     # Check that tempo is not too high
                     print("Max Tempo: " + str(tempoInfo.maxTempo))

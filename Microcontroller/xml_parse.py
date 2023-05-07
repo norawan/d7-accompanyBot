@@ -47,7 +47,6 @@ def addNoteToValue(thisNote, offset, value, measureDuration):
     downNotesScheduled.add(downNote) # Use note.pitch for readability when debugging
     value[offset] = downNotesScheduled
 
-    isTie = False
     # Lift note up at offset + duration
     if (not isTie):
         liftTime = offset + (0.75) * duration / measureDuration
@@ -65,11 +64,17 @@ def addNoteToValue(thisNote, offset, value, measureDuration):
 def schedule(xmlFile):
     scheduledPiece = dict()
 
-    s = converter.parseFile(xmlFile)
+    s = converter.parseFile(xmlFile, format="xml")
     # s.show('text')
 
     flattened = s.flatten()
     # flattened.show('text')
+
+    newPageSet = set()
+    for page in flattened.getElementsByClass(layout.PageLayout):
+        measureNumber = page.measureNumber
+        if (page.isNew) : newPageSet.add(measureNumber)
+    print("Number of pages: " + str(len(newPageSet) + 1))
 
     totalMeasures = flattened.notes[-1].measureNumber
 
@@ -228,6 +233,7 @@ def schedule(xmlFile):
 
     print("Most common octave: " + str(mostCommonOctave))
 
-    return (tempoInfo, totalMeasures, scheduledPiece, mostCommonOctave)
+    return (tempoInfo, totalMeasures, scheduledPiece, mostCommonOctave, newPageSet)
 
-# schedule("XMLFiles/Take_Five.xml", dict())
+(tempoInfo, totalMeasures, scheduledPiece, mostCommonOctave, newPageSet) = schedule("XMLFiles/Baby_Shark.xml")
+# print(scheduledPiece)

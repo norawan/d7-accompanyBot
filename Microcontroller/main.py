@@ -8,7 +8,6 @@ import serial
 
 # Macros
 DEBUG = True
-RPI_CONNECTED = True
 RPI_SER_PORT = '/dev/serial0'
 DEFAULT_BAUD = 9600
 MAX_LATENCY = 10 # in seconds
@@ -45,13 +44,13 @@ def playNotes(setOfNotes, currentOctave):
             else:
                 if (pitch in currentlyPlaying):
                     currentlyPlaying.remove(pitch)
-            if (RPI_CONNECTED): pi.write(pin, state)
+            pi.write(pin, state)
 
     if (DEBUG): print(currentlyPlaying)
 
 def stopPlaying():
-    if (RPI_CONNECTED): pi.clear_bank_1(POSSIBLE_PINS)
-    print(bin(pi.read_bank_1() & POSSIBLE_PINS))
+    pi.clear_bank_1(POSSIBLE_PINS)
+    if (DEBUG) : print(bin(pi.read_bank_1() & POSSIBLE_PINS))
 
 def getMeasureFromTime():
     currentTime = time.time_ns()
@@ -66,7 +65,6 @@ def getCurrentOffset():
     return offset
 
 def checkSerialInput():
-    if (not RPI_CONNECTED): return None
     if (ser.inWaiting() == 0):
         return None
     else:
@@ -98,6 +96,8 @@ offsetList = []
 paused = True
 fileLoaded = False
 measureDuration_ns = 0
+pageList = list()
+currentPage = 1
 
 # Run scheduling
 
@@ -174,7 +174,8 @@ while(True):
                     open(filepath) # To catch the exception for if the file doesn't exist
                     fileLoaded = True
                     newScheduledPiece = dict()
-                    (tempoInfo, totalMeasures, newScheduledPiece, currentOctave) = schedule(filepath)
+                    pageSet = set()
+                    (tempoInfo, totalMeasures, newScheduledPiece, currentOctave, pageSet) = schedule(filepath)
 
                     # Check that tempo is not too high
                     print("Max Tempo: " + str(tempoInfo.maxTempo))
@@ -182,8 +183,11 @@ while(True):
                         print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
                         tempoInfo.tempoValue = tempoInfo.maxTempo
 
+                    pageList = list(pageSet).sort()
+                    currentPage = 1
+
                     ser.write(("N" + str(int(totalMeasures)) + "\n").encode())
-                    #ser.write(("M" + str(tempoInfo.maxTempo) + "\n").encode())
+                    ser.write(("Z" + str(currentPage) + "\n").encode())
                     ser.write(("T" + str(int(tempoInfo.tempoValue)) + "\n").encode())
                     ser.write(("O" + str(int(currentOctave)) + "\n").encode())
 
@@ -213,9 +217,24 @@ while(True):
                         offsetList = list(notesToPlay.keys())
                         offsetList.sort()
 
-                    # Send new measure number over serial port to computer
+                    # Send new measure and page number over serial port to computer
                     writeData = "C" + str(currentMeasure) + "\n"
-                    if (RPI_CONNECTED): ser.write(writeData.encode())
+                    ser.write(writeData.encode())
+
+                    # Update page number and send to computer
+                    newMeasurePage = -1
+                    for i in range(len(pageList)):
+                        if newMeasure < pageList[i]: 
+                            newMeasurePage = i + 1
+                    # Measure is on the last page
+                    if newMeasurePage == -1: 
+                        newMeasurePage = len(pageList) + 1
+
+                    if (newMeasurePage != currentPage):
+                        print("Starting New Page!")
+                        currentPage = newMeasurePage
+                        writeData = "Z" + str(currentMeasure) + "\n"
+                    ser.write(writeData.encode())
 
                 newOffset = getCurrentOffset()
                 # print("offset" + str(newOffset))

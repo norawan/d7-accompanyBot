@@ -2,9 +2,9 @@ from music21 import *
 from gpio import *
 from pin_mapping import *
 
-# Solenoids can only play four notes a second (250ms to go down and up), so a 
+# Solenoids can only play four notes a second (250ms to go down and up), so a
 # note cannot be longer than 125ms
-MINIMUM_NOTE_DURATION_NS = 125000000 
+MINIMUM_NOTE_DURATION_NS = 125000000
 NUM_NS_IN_ONE_MINUTE = 60000000000
 
 class Note:
@@ -12,7 +12,7 @@ class Note:
         self.pitch = pitch
         self.octave = octave
         self.state = state # 1 for pressing down, 0 for lifting up
-    
+
 class TempoObject:
     def __init__(self, tempoValue, beatType, beatCount, beatDuration, maxTempo):
         self.tempoValue = tempoValue
@@ -20,10 +20,10 @@ class TempoObject:
         self.beatCount = beatCount
         self.beatDuration = beatDuration
         self.maxTempo = maxTempo
-    
+
     def getMeasureDuration_ns(self):
         quarterLength_ns = NUM_NS_IN_ONE_MINUTE / (self.tempoValue * self.beatType)
-        measureDuration = self.beatCount * self.beatDuration 
+        measureDuration = self.beatCount * self.beatDuration
         return int(quarterLength_ns *  measureDuration)
 
 def addNoteToValue(thisNote, offset, value, measureDuration):
@@ -47,6 +47,7 @@ def addNoteToValue(thisNote, offset, value, measureDuration):
     downNotesScheduled.add(downNote) # Use note.pitch for readability when debugging
     value[offset] = downNotesScheduled
 
+    isTie = False
     # Lift note up at offset + duration
     if (not isTie):
         liftTime = offset + (0.75) * duration / measureDuration
@@ -58,12 +59,12 @@ def addNoteToValue(thisNote, offset, value, measureDuration):
         upNote = Note(pitch, octave, 0)
         upNotesScheduled.add(upNote)
         value[liftTime] = upNotesScheduled
-    
+
     return duration
 
 def schedule(xmlFile):
     scheduledPiece = dict()
-    
+
     s = converter.parseFile(xmlFile)
     # s.show('text')
 
@@ -71,7 +72,7 @@ def schedule(xmlFile):
     # flattened.show('text')
 
     totalMeasures = flattened.notes[-1].measureNumber
-    
+
     # Durations are in terms of quarterLength (A quarter note is worth 1.0 unit)
 
     # Get Time Signature Info
@@ -101,7 +102,6 @@ def schedule(xmlFile):
         if ("J:" in string):
             arr = string.split("J:")
             tempoValue = int(arr[1])
-    print("Tempo: " + str(tempoValue))
 
     # Actual tempo data structure in music21
     for tempoMark in flattened.getElementsByClass(tempo.MetronomeMark):
@@ -114,10 +114,12 @@ def schedule(xmlFile):
         print("ERROR: No beatType detected. Using quarter note as default\n")
         beatType = 1
 
+    print("Tempo: " + str(tempoValue))
+
     # (60,000,000,000 / tempo * beatType) = duration of a quarter note in ns
-    # i.e. In a song with 120 bpm and 1 beat is 1 quarter note, a quarter note 
+    # i.e. In a song with 120 bpm and 1 beat is 1 quarter note, a quarter note
     #      will be (60,000 / (120 * 1)) = 500 ms long
-    measureDuration = beatCount * beatDuration 
+    measureDuration = beatCount * beatDuration
 
     smallestDuration = -1
 
@@ -134,12 +136,12 @@ def schedule(xmlFile):
         # print(thisChord.pitchNames)
         # print(thisChord.duration.quarterLength)
         # print(thisChord.tie)
-        
+
         measureNumber = int(thisChord.measureNumber)
         value = scheduledPiece.get(measureNumber, "none")
         if (value == "none"):
             value = dict()
-        
+
         for thisNote in thisChord.notes:
             offset = (thisChord.offset % (measureDuration)) / (measureDuration)
             # print("offset: " + str(offset))
@@ -150,7 +152,7 @@ def schedule(xmlFile):
             else:
                 if (noteDuration < smallestDuration):
                     smallestDuration = noteDuration
-            
+
             # Count most played octaves
             currentOctave = thisNote.octave
             val = octavesPlayed.get(currentOctave, "None")
@@ -160,17 +162,17 @@ def schedule(xmlFile):
                 octavesPlayed[currentOctave] = val + 1
 
         scheduledPiece[measureNumber] = value
-        
+
     for thisNote in flattened.getElementsByClass(note.Note):
         # print(thisNote.offset)
         # print(thisNote.name)
         # print(thisNote.duration.quarterLength)
-        
+
         measureNumber = int(thisNote.measureNumber)
         value = scheduledPiece.get(measureNumber, "none")
         if (value == "none"):
             value = dict()
-        
+
         offset = (thisNote.offset % (measureDuration)) / (measureDuration)
         # print("offset: " + str(offset))
 
@@ -190,7 +192,7 @@ def schedule(xmlFile):
             octavesPlayed[currentOctave] = 1
         else:
             octavesPlayed[currentOctave] = val + 1
-    
+
     for thisRest in flattened.getElementsByClass(note.Rest):
         measureNumber = int(thisRest.measureNumber)
         value = scheduledPiece.get(measureNumber, "none")
@@ -223,7 +225,7 @@ def schedule(xmlFile):
         if octavesPlayed[octave] > octaveCount:
             octaveCount = octavesPlayed[octave]
             mostCommonOctave = octave
-    
+
     print("Most common octave: " + str(mostCommonOctave))
 
     return (tempoInfo, totalMeasures, scheduledPiece, mostCommonOctave)

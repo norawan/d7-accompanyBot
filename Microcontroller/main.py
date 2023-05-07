@@ -10,13 +10,14 @@ import serial
 DEBUG = True
 RPI_CONNECTED = True
 RPI_SER_PORT = '/dev/serial0'
-DEFAULT_BAUD = 115200
+DEFAULT_BAUD = 9600
 MAX_LATENCY = 10 # in seconds
 XML_FILES_PATH = "/home/pi/d7-accompanyBot/XMLFiles/"
 DEFAULT_OCTAVE = 3
 MAX_NOTES = 5
 
 def isNoteInRange(octave):
+    return True
     return (octave == currentOctave)
 
 def playNotes(setOfNotes, currentOctave):
@@ -24,7 +25,6 @@ def playNotes(setOfNotes, currentOctave):
 
     Args: currentMeasure (int): The time step to retreive notes for
     """
-    print(setOfNotes)
     for note in setOfNotes:
         pitch = note.pitch
         octave = note.octave
@@ -42,7 +42,6 @@ def playNotes(setOfNotes, currentOctave):
                 if (len(currentlyPlaying) == MAX_NOTES):
                     break
                 currentlyPlaying.add(pitch)
-                if (DEBUG): print(".")
             else:
                 if (pitch in currentlyPlaying):
                     currentlyPlaying.remove(pitch)
@@ -154,7 +153,8 @@ while(True):
 
                     if (newTempo > tempoInfo.maxTempo):
                         print(f"ERROR: Input tempo of {newTempo} too high. Using max tempo of {tempoInfo.maxTempo} instead")
-                    tempoInfo.tempoValue = min(tempoInfo.maxTempo, newTempo)
+                        tempoInfo.tempoValue = tempoInfo.maxTempo
+                        ser.write(("M" + str(int(tempoInfo.tempoValue)) + "\n").encode())
 
                     # Recalculate measure duration and set time variables
                     measureDuration_ns = tempoInfo.getMeasureDuration_ns()
@@ -182,10 +182,10 @@ while(True):
                         print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
                         tempoInfo.tempoValue = tempoInfo.maxTempo
 
-                    ser.write(("N" + str(totalMeasures) + "\n").encode())
-                    ser.write(("M" + str(tempoInfo.maxTempo) + "\n").encode())
-                    ser.write(("O" + str(currentOctave) + "\n").encode())
-                    ser.write(("C0\n").encode())
+                    ser.write(("N" + str(int(totalMeasures)) + "\n").encode())
+                    #ser.write(("M" + str(tempoInfo.maxTempo) + "\n").encode())
+                    ser.write(("T" + str(int(tempoInfo.tempoValue)) + "\n").encode())
+                    ser.write(("O" + str(int(currentOctave)) + "\n").encode())
 
                     scheduledPiece = newScheduledPiece
                     measureDuration_ns = tempoInfo.getMeasureDuration_ns()
@@ -228,8 +228,8 @@ while(True):
                     offsetList = offsetList[1:]
             else:
                 pass
-    except:
-        pass
+    except Exception as error:
+        print(error);
 
 # Should never reach here
 print("Program terminated")

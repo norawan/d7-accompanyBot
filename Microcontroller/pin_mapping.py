@@ -58,7 +58,8 @@ noteToPinDict = {
     "D#" : PIN3,
     "E-" : PIN3,
     "E" : PIN4,
-    # space between E/F is not mapped
+    "E#" : PIN5,
+    "F-" : PIN4,
     "F" : PIN5,
     "F#" : PIN6,
     "G-" : PIN6,
@@ -69,6 +70,7 @@ noteToPinDict = {
     "A#" : PIN10,
     "B-" : PIN10,
     "B" : PIN11,
+    "B#" : PIN0,
     "C-" : PIN11
     # space between B/C is not mapped
 }

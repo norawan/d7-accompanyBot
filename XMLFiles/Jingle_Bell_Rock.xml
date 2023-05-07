@@ -15,7 +15,7 @@
       <supports type="yes" element="print" attribute="new-system" value="yes"></supports>
       <supports type="yes" element="print" attribute="new-page" value="yes"></supports>
       <software>ProxyMusic 3.0.1.8e1a2c5</software>
-      <encoding-date>2023-04-22</encoding-date>
+      <encoding-date>2023-04-23</encoding-date>
     </encoding>
     <source>C:\Users\khand\OneDrive\Documents\GitHub\d7-accompanyBot\ExtraMusic\Jingle_Bell_Rock.png</source>
     <miscellaneous>
@@ -703,6 +703,10 @@
       <attributes>
         <staff-details print-object="yes"></staff-details>
       </attributes>
+      <barline location="left">
+        <bar-style>heavy-light</bar-style>
+        <repeat direction="forward"></repeat>
+      </barline>
       <note default-x="78">
         <pitch>
           <step>E</step>

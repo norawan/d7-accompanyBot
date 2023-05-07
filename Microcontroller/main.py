@@ -144,6 +144,26 @@ while(True):
                     justStarted = True
                     startTime = time.time_ns()
 
+                    # Update page number and send to computer
+                    newMeasurePage = -1
+                    for i in range(len(pageList)):
+                        print("page " + str(i) + ": " + str(pageList[i]), "current measure:" + str(currentMeasure))
+                        if currentMeasure < pageList[i]:
+                            newMeasurePage = i + 1
+                            break
+                    # Measure is on the last page
+                    if newMeasurePage == -1:
+                        newMeasurePage = len(pageList) + 1
+
+                    print(newMeasurePage)
+
+                    if (newMeasurePage != currentPage):
+                        print("Starting New Page!")
+                        currentPage = newMeasurePage
+                        print(currentPage)
+                        newPageData = "Z" + str(newMeasurePage) + "\n"
+                        ser.write(newPageData.encode())
+
             # New Tempo Received
             elif (command[0] == "T" and len(command) > 1):
                 if (fileLoaded):
@@ -183,7 +203,9 @@ while(True):
                         print(f"ERROR: Parsed tempo of {tempoInfo.tempoValue} exceeds max tempo. Playing with max tempo of {tempoInfo.maxTempo}")
                         tempoInfo.tempoValue = tempoInfo.maxTempo
 
-                    pageList = list(pageSet).sort()
+                    pageList = list(pageSet)
+                    pageList.sort()
+                    print(pageList)
                     currentPage = 1
 
                     ser.write(("N" + str(int(totalMeasures)) + "\n").encode())
@@ -218,23 +240,24 @@ while(True):
                         offsetList.sort()
 
                     # Send new measure and page number over serial port to computer
-                    writeData = "C" + str(currentMeasure) + "\n"
-                    ser.write(writeData.encode())
+                    newMeasureData = "C" + str(currentMeasure) + "\n"
+                    ser.write(newMeasureData.encode())
 
                     # Update page number and send to computer
                     newMeasurePage = -1
                     for i in range(len(pageList)):
-                        if newMeasure < pageList[i]: 
+                        if newMeasure < pageList[i]:
                             newMeasurePage = i + 1
+                            break
                     # Measure is on the last page
-                    if newMeasurePage == -1: 
+                    if newMeasurePage == -1:
                         newMeasurePage = len(pageList) + 1
 
                     if (newMeasurePage != currentPage):
                         print("Starting New Page!")
                         currentPage = newMeasurePage
-                        writeData = "Z" + str(currentMeasure) + "\n"
-                    ser.write(writeData.encode())
+                        newPageData = "Z" + str(newMeasurePage) + "\n"
+                        ser.write(newPageData.encode())
 
                 newOffset = getCurrentOffset()
                 # print("offset" + str(newOffset))

@@ -234,6 +234,3 @@ def schedule(xmlFile):
     print("Most common octave: " + str(mostCommonOctave))
 
     return (tempoInfo, totalMeasures, scheduledPiece, mostCommonOctave, newPageSet)
-
-(tempoInfo, totalMeasures, scheduledPiece, mostCommonOctave, newPageSet) = schedule("XMLFiles/Baby_Shark.xml")
-# print(scheduledPiece)

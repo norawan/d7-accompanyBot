@@ -142,7 +142,6 @@ while(True):
                     startMeasure = int(measure)
                     currentMeasure = startMeasure
                     justStarted = True
-                    startTime = time.time_ns()
 
                     # Update page number and send to computer
                     newMeasurePage = -1
@@ -155,14 +154,14 @@ while(True):
                     if newMeasurePage == -1:
                         newMeasurePage = len(pageList) + 1
 
-                    print(newMeasurePage)
-
                     if (newMeasurePage != currentPage):
                         print("Starting New Page!")
                         currentPage = newMeasurePage
                         print(currentPage)
                         newPageData = "Z" + str(newMeasurePage) + "\n"
                         ser.write(newPageData.encode())
+
+                    startTime = time.time_ns()
 
             # New Tempo Received
             elif (command[0] == "T" and len(command) > 1):

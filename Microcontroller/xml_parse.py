@@ -70,6 +70,7 @@ def schedule(xmlFile):
     flattened = s.flatten()
     # flattened.show('text')
 
+    # Counting the number of pages
     newPageSet = set()
     for page in flattened.getElementsByClass(layout.PageLayout):
         measureNumber = page.measureNumber
@@ -205,7 +206,7 @@ def schedule(xmlFile):
             value = dict()
 
         offset = (thisRest.offset % (measureDuration)) / (measureDuration)
-        value[offset] = set()
+        # value[offset] = set()
 
         scheduledPiece[measureNumber] = value
 
@@ -234,3 +235,16 @@ def schedule(xmlFile):
     print("Most common octave: " + str(mostCommonOctave))
 
     return (tempoInfo, totalMeasures, scheduledPiece, mostCommonOctave, newPageSet)
+
+# piece = dict()
+# (tempoInfo, totalMeasures, piece, mostCommonOctave, newPageSet) = schedule("XMLFiles/Baby_Shark.xml")
+
+# for measureNum in piece.keys():
+#     print(str(measureNum) + ": ")
+#     val = (piece[measureNum])
+#     for offset in val.keys():
+#         print("\t" + str(offset) + ": ")
+#         setOfNotePitches = set()
+#         for thisNote in val[offset]:
+#             setOfNotePitches.add((thisNote.pitch, thisNote.state))
+#         print("\t\t" + str(setOfNotePitches))

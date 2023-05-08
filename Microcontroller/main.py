@@ -175,7 +175,8 @@ while(True):
                         print(f"ERROR: Input tempo of {newTempo} too high. Using max tempo of {tempoInfo.maxTempo} instead")
                         tempoInfo.tempoValue = tempoInfo.maxTempo
                         ser.write(("M" + str(int(tempoInfo.tempoValue)) + "\n").encode())
-
+                    else:
+                        tempoInfo.tempoValue = newTempo
                     # Recalculate measure duration and set time variables
                     measureDuration_ns = tempoInfo.getMeasureDuration_ns()
                     startMeasure = currentMeasure
